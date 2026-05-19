@@ -1,62 +1,44 @@
-name: LLM YouTube Tracker Bot
+name: LLM Landscape Tracker
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Runs automatically every 6 hours
-  workflow_dispatch: # Adds a "Run workflow" button so you can trigger it live during your interview!
+    - cron: '0 */6 * * *' # Runs every 6 hours
+  workflow_dispatch:      # Allows manual trigger button in GitHub UI
+
+permissions:
+  contents: write
 
 jobs:
-  update-dashboard:
+  update-tracker:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Crucial: Allows the bot to commit data back to your repo
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.13'
           cache: 'pip'
 
-      - name: Install System Dependencies (For Whisper Audio Chunking)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Install Python Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run Tracker Pipeline
+      - name: Run Pipeline
         env:
-          # Pulls your secure API keys from GitHub Secrets
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEPAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python main.py init-db
-          python main.py ingest --max-videos 10
-          python main.py transcript --limit 20
-          python main.py analyse --limit 20
-          python main.py export-dashboard --output docs/data/latest.json
+          python main.py ingest
+          python main.py transcript
+          python main.py analyse
+          python main.py export-dashboard
 
-      - name: Commit and Push Updates
+      - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Force add tracker.db so it acts as the bot's "memory" between runs
-          git add -f tracker.db
-          git add docs/data/latest.json
-          
-          # Only commit if new videos/data were actually found
-          if git diff --staged --quiet; then
-            echo "No new data to commit."
-          else
-            git commit -m "Auto-update tracker data"
-            git push
-          fi
+          git add tracker.db docs/data/latest.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-refresh landscape data" && git push)
