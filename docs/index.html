@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LLM YouTube Landscape Tracker</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero__copy">
+          <p class="eyebrow">Transcript-grounded channel watch</p>
+          <h1 id="page-title">LLM YouTube Landscape Tracker</h1>
+          <p class="lede">
+            A running map of popular LLM video channels, their topics, themes,
+            transcript state, and analysis readiness.
+          </p>
+        </div>
+        <div class="hero__status" aria-live="polite">
+          <span id="dataSource" class="source-pill">Loading data</span>
+          <span id="generatedAt" class="timestamp">Generated: pending</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Dashboard statistics">
+        <article class="stat-card">
+          <span class="stat-card__label">Channels</span>
+          <strong id="channelCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-card__label">Videos</span>
+          <strong id="videoCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-card__label">Ready</span>
+          <strong id="readyCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-card__label">Needs Work</span>
+          <strong id="blockedCount">0</strong>
+        </article>
+      </section>
+
+      <section class="control-panel" aria-label="Dashboard filters">
+        <label class="field">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Search titles, channels, summaries, topics">
+        </label>
+        <label class="field">
+          <span>Theme</span>
+          <select id="themeFilter">
+            <option value="">All themes</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Channel</span>
+          <select id="channelFilter">
+            <option value="">All channels</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="table-card" aria-labelledby="table-title">
+        <div class="table-card__header">
+          <div>
+            <p class="eyebrow">Video rows</p>
+            <h2 id="table-title">Landscape Table</h2>
+          </div>
+          <p id="resultCount" class="result-count">0 videos</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Channel</th>
+                <th>Title</th>
+                <th>Speakers</th>
+                <th>Topics</th>
+                <th>Themes</th>
+                <th>Summary</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="videoRows">
+              <tr>
+                <td colspan="8" class="empty-state">Loading dashboard data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
