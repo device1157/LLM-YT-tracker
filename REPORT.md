@@ -12,7 +12,7 @@ Ingestion reads `config/channels.json`, uses the YouTube Data API when `YOUTUBE_
 
 Transcript extraction uses `youtube-transcript-api` first. If captions cannot be retrieved and `OPENAI_API_KEY` is configured, the system downloads lowest-quality audio with `yt-dlp` and sends it to OpenAI Whisper (`whisper-1`). If both captions and Whisper fail, the system records a terminal failed placeholder in the `transcripts` table and updates `videos.transcript_status`, preventing infinite retries.
 
-Analysis uses `prompts/video_analysis.md` and a Pydantic `VideoAnalysis` model to enforce strict JSON fields: `summary`, `speakers`, `topics`, `keywords`, `themes`, and `confidence`. Complete transcripts are sent through OpenAI structured parsing. Failed transcript placeholders are recorded as schema-valid `Unavailable` analyses with `analysis_status='transcript_failed'`.
+Analysis uses `prompts/video_analysis.md` and a Pydantic `VideoAnalysis` model to enforce strict JSON fields: `summary`, `speakers`, `topics`, `keywords`, `themes`, and `confidence`. Complete transcripts are sent through OpenAI or Gemini structured output. Failed transcript placeholders are recorded as schema-valid `Unavailable` analyses with `analysis_status='transcript_failed'`.
 
 The dashboard export joins channels, videos, transcripts, and analysis rows into `docs/data/latest.json` with `generated_at`, `stats`, `channels`, and `videos`. FastAPI exposes `/health`, `/channels`, `/stats`, `/videos`, `/dashboard-data`, and `/refresh`. The static dashboard loads `/dashboard-data` first and falls back to `./data/latest.json` for GitHub Pages.
 
@@ -45,4 +45,4 @@ Local verification completed the full runnable pipeline through export and front
 
 Transcript retrieval reached YouTube but was rate-limited with HTTP 429 in this environment. Because no usable `OPENAI_API_KEY` was available locally, Whisper could not run; all 20 videos received failed transcript placeholders, preventing infinite retries. Analysis then created 20 schema-valid `Unavailable` records with `confidence=0.0` and `analysis_status='transcript_failed'`.
 
-Because the local environment did not provide usable captions or an `OPENAI_API_KEY`, no transcript-grounded OpenAI summaries were generated locally. The structured OpenAI path is implemented and will run automatically for future rows whose transcript status is `complete` when `OPENAI_API_KEY` is configured.
+Because the local environment did not provide usable captions or an analysis API key, no transcript-grounded LLM summaries were generated locally. The structured OpenAI and Gemini paths are implemented and will run automatically for future rows whose transcript status is `complete` when `OPENAI_API_KEY` or `GEMINI_API_KEY` is configured.

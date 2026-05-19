@@ -17,9 +17,15 @@ from pydantic import BaseModel, Field, ValidationError
 from src.database import DEFAULT_DB_PATH, get_connection, initialize_database, insert_job_run
 
 DEFAULT_PROMPT_PATH = Path("prompts/video_analysis.md")
-DEFAULT_ANALYSIS_MODEL = "gpt-4o-mini"
+DEFAULT_OPENAI_ANALYSIS_MODEL = "gpt-4o-mini"
+DEFAULT_GEMINI_ANALYSIS_MODEL = "gemini-2.5-flash"
+DEFAULT_ANALYSIS_MODEL = DEFAULT_OPENAI_ANALYSIS_MODEL
+DEFAULT_ANALYSIS_PROVIDER = "auto"
+SUPPORTED_ANALYSIS_PROVIDERS = ("auto", "openai", "gemini")
 PROMPT_VERSION = "video-analysis-v1"
 MAX_TRANSCRIPT_CHARS = 60000
+
+AnalysisProvider = Literal["openai", "gemini"]
 
 Theme = Literal[
     "Tutorial",
@@ -158,7 +164,7 @@ def unavailable_analysis(message: str) -> VideoAnalysis:
 
 def build_user_payload(item: TranscriptForAnalysis) -> str:
     """Build the user message sent to the LLM."""
-    logging.info("Building OpenAI analysis payload for video %s", item.video_id)
+    logging.info("Building analysis payload for video %s", item.video_id)
     transcript = item.transcript_text.strip()
     if len(transcript) > MAX_TRANSCRIPT_CHARS:
         logging.info(
@@ -179,6 +185,59 @@ def build_user_payload(item: TranscriptForAnalysis) -> str:
         "transcript": transcript,
     }
     return json.dumps(payload, ensure_ascii=False)
+
+
+def infer_provider_from_model(model: str | None) -> AnalysisProvider | None:
+    """Infer provider from well-known model name prefixes."""
+    if not model:
+        return None
+    model_name = model.strip().lower()
+    if model_name.startswith("gemini-"):
+        return "gemini"
+    if model_name.startswith(("gpt-", "o1", "o3", "o4")):
+        return "openai"
+    return None
+
+
+def select_analysis_provider(provider: str | None, model: str | None = None) -> AnalysisProvider:
+    """Choose the analysis provider from CLI/env configuration and available keys."""
+    requested = (provider or os.getenv("ANALYSIS_PROVIDER") or DEFAULT_ANALYSIS_PROVIDER).strip().lower()
+    if requested not in SUPPORTED_ANALYSIS_PROVIDERS:
+        supported = ", ".join(SUPPORTED_ANALYSIS_PROVIDERS)
+        raise ValueError(f"Unsupported analysis provider '{requested}'. Expected one of: {supported}")
+
+    if requested != "auto":
+        return requested  # type: ignore[return-value]
+
+    inferred = infer_provider_from_model(model or os.getenv("ANALYSIS_MODEL"))
+    if inferred:
+        return inferred
+    if os.getenv("OPENAI_API_KEY"):
+        return "openai"
+    if os.getenv("GEMINI_API_KEY"):
+        return "gemini"
+    return "openai"
+
+
+def select_analysis_model(provider: AnalysisProvider, model: str | None = None) -> str:
+    """Choose the model for the selected provider."""
+    if model:
+        return model
+
+    generic_model = os.getenv("ANALYSIS_MODEL")
+    if generic_model:
+        return generic_model
+
+    if provider == "gemini":
+        return os.getenv("GEMINI_ANALYSIS_MODEL") or DEFAULT_GEMINI_ANALYSIS_MODEL
+    return os.getenv("OPENAI_ANALYSIS_MODEL") or DEFAULT_OPENAI_ANALYSIS_MODEL
+
+
+def provider_api_key_name(provider: AnalysisProvider) -> str:
+    """Return the environment variable required by a provider."""
+    if provider == "gemini":
+        return "GEMINI_API_KEY"
+    return "OPENAI_API_KEY"
 
 
 def analyze_with_openai(
@@ -207,9 +266,64 @@ def analyze_with_openai(
     return parsed
 
 
+def analyze_with_gemini(
+    item: TranscriptForAnalysis,
+    prompt: str,
+    model: str,
+    timeout_seconds: float,
+) -> VideoAnalysis:
+    """Run Gemini structured analysis and return a validated Pydantic object."""
+    logging.info("Calling Gemini structured analysis for video %s with model %s", item.video_id, model)
+    try:
+        from google import genai
+        from google.genai import types
+    except ImportError as exc:
+        raise RuntimeError("google-genai is not installed. Run `pip install -r requirements.txt`.") from exc
+
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY is missing.")
+
+    timeout_ms = int(timeout_seconds * 1000)
+    config = types.GenerateContentConfig(
+        system_instruction=prompt,
+        temperature=0,
+        response_mime_type="application/json",
+        response_json_schema=VideoAnalysis.model_json_schema(),
+    )
+
+    with genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(timeout=timeout_ms),
+    ) as client:
+        response = client.models.generate_content(
+            model=model,
+            contents=build_user_payload(item),
+            config=config,
+        )
+
+    parsed_payload = getattr(response, "parsed", None)
+    if isinstance(parsed_payload, VideoAnalysis):
+        logging.info("Gemini analysis parsed successfully for video %s", item.video_id)
+        return parsed_payload
+    if parsed_payload is not None:
+        parsed = VideoAnalysis.model_validate(parsed_payload)
+        logging.info("Gemini analysis parsed successfully for video %s", item.video_id)
+        return parsed
+
+    if not response.text:
+        logging.error("Gemini returned no text analysis for %s", item.video_id)
+        raise RuntimeError("Gemini returned no text analysis")
+
+    parsed = VideoAnalysis.model_validate_json(response.text)
+    logging.info("Gemini analysis parsed successfully for video %s", item.video_id)
+    return parsed
+
+
 def analyze_transcript(
     item: TranscriptForAnalysis,
     prompt: str,
+    provider: AnalysisProvider,
     model: str,
     timeout_seconds: float,
 ) -> AnalysisResult:
@@ -228,19 +342,23 @@ def analyze_transcript(
             error_message=item.transcript_error,
         )
 
-    if not os.getenv("OPENAI_API_KEY"):
-        logging.error("OPENAI_API_KEY is missing; analysis for %s remains retryable", item.video_id)
+    api_key_name = provider_api_key_name(provider)
+    if not os.getenv(api_key_name):
+        logging.error("%s is missing; analysis for %s remains retryable", api_key_name, item.video_id)
         return AnalysisResult(
             video_id=item.video_id,
-            analysis=unavailable_analysis("OpenAI analysis was not run because OPENAI_API_KEY is missing."),
+            analysis=unavailable_analysis(f"{provider.title()} analysis was not run because {api_key_name} is missing."),
             status="retryable_error",
             model=model,
             prompt_version=PROMPT_VERSION,
-            error_message="OPENAI_API_KEY is missing.",
+            error_message=f"{api_key_name} is missing.",
         )
 
     try:
-        parsed = analyze_with_openai(item, prompt, model, timeout_seconds)
+        if provider == "gemini":
+            parsed = analyze_with_gemini(item, prompt, model, timeout_seconds)
+        else:
+            parsed = analyze_with_openai(item, prompt, model, timeout_seconds)
         return AnalysisResult(
             video_id=item.video_id,
             analysis=parsed,
@@ -250,14 +368,17 @@ def analyze_transcript(
             error_message=None,
         )
     except (APITimeoutError, TimeoutError) as exc:
-        logging.exception("OpenAI analysis timed out for %s", item.video_id)
-        return retryable_error(item.video_id, model, f"OpenAI timeout: {exc}")
+        logging.exception("%s analysis timed out for %s", provider.title(), item.video_id)
+        return retryable_error(item.video_id, model, f"{provider.title()} timeout: {exc}")
     except (APIConnectionError, APIStatusError) as exc:
-        logging.exception("OpenAI API error for %s", item.video_id)
-        return retryable_error(item.video_id, model, f"OpenAI API error: {exc}")
+        logging.exception("%s API error for %s", provider.title(), item.video_id)
+        return retryable_error(item.video_id, model, f"{provider.title()} API error: {exc}")
     except (ValidationError, ValueError, RuntimeError) as exc:
-        logging.exception("OpenAI analysis parsing failed for %s", item.video_id)
+        logging.exception("%s analysis parsing failed for %s", provider.title(), item.video_id)
         return retryable_error(item.video_id, model, f"Analysis parsing failed: {exc}")
+    except Exception as exc:
+        logging.exception("%s analysis failed for %s", provider.title(), item.video_id)
+        return retryable_error(item.video_id, model, f"{provider.title()} analysis failed: {exc}")
 
 
 def retryable_error(video_id: str, model: str, error_message: str) -> AnalysisResult:
@@ -344,6 +465,7 @@ def analyze_pending_transcripts(
     db_path: Path | str = DEFAULT_DB_PATH,
     prompt_path: Path | str = DEFAULT_PROMPT_PATH,
     limit: int = 10,
+    provider: str | None = None,
     model: str | None = None,
     timeout_seconds: float = 60.0,
 ) -> dict[str, Any]:
@@ -353,7 +475,9 @@ def analyze_pending_transcripts(
     started_at = utc_now()
     initialize_database(db_path)
     prompt = load_prompt(prompt_path)
-    selected_model = model or os.getenv("OPENAI_ANALYSIS_MODEL") or DEFAULT_ANALYSIS_MODEL
+    selected_provider = select_analysis_provider(provider, model)
+    selected_model = select_analysis_model(selected_provider, model)
+    logging.info("Selected %s analysis provider with model %s", selected_provider, selected_model)
     transcripts = get_unanalyzed_transcripts(db_path=db_path, limit=limit)
 
     processed = 0
@@ -369,6 +493,7 @@ def analyze_pending_transcripts(
             result = analyze_transcript(
                 transcript,
                 prompt=prompt,
+                provider=selected_provider,
                 model=selected_model,
                 timeout_seconds=timeout_seconds,
             )
@@ -389,6 +514,7 @@ def analyze_pending_transcripts(
     finished_at = utc_now()
     details = {
         "limit": limit,
+        "provider": selected_provider,
         "model": selected_model,
         "prompt_version": PROMPT_VERSION,
         "status_counts": status_counts,

@@ -8,7 +8,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 - A SQLite database at `tracker.db` with channels, videos, transcripts, analysis rows, and job run history.
 - YouTube ingestion with API-first behavior and a `yt-dlp` fallback.
 - Transcript extraction using YouTube captions first, with an OpenAI Whisper audio fallback and terminal failure records to prevent retry loops.
-- LLM analysis using OpenAI structured output plus a strict Pydantic contract.
+- LLM analysis using OpenAI or Gemini structured output plus a strict Pydantic contract.
 - A static dashboard in `docs/` that works on GitHub Pages.
 - A FastAPI backend with dashboard data endpoints.
 - A GitHub Actions workflow that refreshes data every 6 hours.
@@ -22,7 +22,8 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 - YouTube Data API v3 via `google-api-python-client`
 - `yt-dlp` as ingestion fallback
 - `youtube-transcript-api` for captions
-- OpenAI Python SDK for Whisper transcription fallback and structured transcript analysis
+- OpenAI Python SDK for Whisper transcription fallback and OpenAI transcript analysis
+- Google Gen AI SDK for Gemini transcript analysis
 - Pydantic for output validation
 - Vanilla HTML, CSS, and JavaScript for the static dashboard
 - GitHub Pages plus GitHub Actions for public hosting and scheduled refresh
@@ -41,7 +42,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 ├── prompts/video_analysis.md      # Strict JSON analysis prompt
 ├── src/
 │   ├── api.py                     # FastAPI app and routes
-│   ├── analysis.py                # OpenAI structured analysis
+│   ├── analysis.py                # OpenAI/Gemini structured analysis
 │   ├── database.py                # SQLite schema and helpers
 │   ├── export.py                  # Dashboard JSON export
 │   ├── ingestion.py               # YouTube API and yt-dlp ingestion
@@ -78,7 +79,7 @@ Optional API keys:
 Copy-Item .env.example .env
 ```
 
-Then set `YOUTUBE_API_KEY` and `OPENAI_API_KEY` in `.env`.
+Then set `YOUTUBE_API_KEY`, `OPENAI_API_KEY`, and/or `GEMINI_API_KEY` in `.env`.
 
 Serve the API:
 
@@ -97,7 +98,7 @@ Serve the static dashboard locally:
 - `init-db`: Creates the SQLite schema idempotently.
 - `ingest`: Reads `config/channels.json`, fetches channel/video metadata, and upserts rows.
 - `transcript`: Finds videos missing terminal transcript rows, fetches captions, falls back to Whisper, and stores text or a terminal failure record.
-- `analyse`: Finds transcripts needing analysis, calls OpenAI for complete transcripts, and stores schema-valid analysis rows.
+- `analyse`: Finds transcripts needing analysis, calls OpenAI or Gemini for complete transcripts, and stores schema-valid analysis rows.
 - `export-dashboard`: Writes `docs/data/latest.json`.
 - `serve-api`: Starts the FastAPI backend on `127.0.0.1:8000` by default.
 
@@ -108,6 +109,7 @@ Useful flags:
 .\.venv\Scripts\python.exe main.py ingest --max-videos 10
 .\.venv\Scripts\python.exe main.py transcript --limit 50
 .\.venv\Scripts\python.exe main.py analyse --limit 50 --model gpt-4o-mini
+.\.venv\Scripts\python.exe main.py analyse --limit 50 --provider gemini --model gemini-2.5-flash
 .\.venv\Scripts\python.exe main.py export-dashboard --output docs/data/latest.json
 .\.venv\Scripts\python.exe main.py serve-api --host 127.0.0.1 --port 8000
 ```
@@ -146,11 +148,17 @@ The workflow:
 4. Runs `init-db`.
 5. Runs `ingest` with `YOUTUBE_API_KEY` from repository secrets.
 6. Runs `transcript` with `OPENAI_API_KEY` available for fallback logic.
-7. Runs `analyse` with `OPENAI_API_KEY`.
+7. Runs `analyse` with `OPENAI_API_KEY` or `GEMINI_API_KEY`.
 8. Runs `export-dashboard`.
 9. Commits `tracker.db` and `docs/data/latest.json` if they changed.
 
 For GitHub Pages, configure Pages to serve from the `docs/` directory. The dashboard will load `./data/latest.json` when the API is not present.
+
+## Notes On Analysis Providers
+
+`analyse` supports `--provider auto`, `--provider openai`, and `--provider gemini`. In `auto` mode, OpenAI is used when `OPENAI_API_KEY` exists, otherwise Gemini is used when `GEMINI_API_KEY` exists. If both keys are present and you want Gemini, pass `--provider gemini` or set `ANALYSIS_PROVIDER=gemini`.
+
+Default models are `gpt-4o-mini` for OpenAI and `gemini-2.5-flash` for Gemini. Override with `--model`, `ANALYSIS_MODEL`, `OPENAI_ANALYSIS_MODEL`, or `GEMINI_ANALYSIS_MODEL`.
 
 ## Notes On API-First Ingestion
 
@@ -174,4 +182,4 @@ When caption extraction fails, the system attempts an OpenAI Whisper fallback if
 
 When extraction fails completely, or when `OPENAI_API_KEY` is missing, the system writes a terminal failed record into `transcripts` and updates `videos.transcript_status='failed'`. This is intentional: it prevents infinite retry loops and lets the dashboard show a clear pending/failed state.
 
-Analysis only performs transcript-grounded OpenAI analysis when `transcripts.status='complete'`. Failed transcript placeholders are stored as schema-valid `Unavailable` analysis rows, so export and dashboard rendering stay reliable even when captions are unavailable.
+Analysis only performs transcript-grounded LLM analysis when `transcripts.status='complete'`. Failed transcript placeholders are stored as schema-valid `Unavailable` analysis rows, so export and dashboard rendering stay reliable even when captions are unavailable.

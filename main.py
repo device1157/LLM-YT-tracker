@@ -7,7 +7,13 @@ import logging
 import sys
 from pathlib import Path
 
-from src.analysis import DEFAULT_ANALYSIS_MODEL, DEFAULT_PROMPT_PATH, analyze_pending_transcripts
+from src.analysis import (
+    DEFAULT_GEMINI_ANALYSIS_MODEL,
+    DEFAULT_OPENAI_ANALYSIS_MODEL,
+    DEFAULT_PROMPT_PATH,
+    SUPPORTED_ANALYSIS_PROVIDERS,
+    analyze_pending_transcripts,
+)
 from src.api import run_server
 from src.database import DEFAULT_DB_PATH, EXPECTED_TABLES, initialize_database, list_tables
 from src.export import DEFAULT_SNAPSHOT_PATH, export_dashboard_snapshot
@@ -74,8 +80,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     analyse_parser.add_argument(
         "--model",
-        default=DEFAULT_ANALYSIS_MODEL,
-        help="OpenAI model to use for transcript analysis.",
+        default=None,
+        help=(
+            "Model to use for transcript analysis. Defaults to "
+            f"{DEFAULT_OPENAI_ANALYSIS_MODEL} for OpenAI or {DEFAULT_GEMINI_ANALYSIS_MODEL} for Gemini."
+        ),
+    )
+    analyse_parser.add_argument(
+        "--provider",
+        choices=SUPPORTED_ANALYSIS_PROVIDERS,
+        default=None,
+        help="LLM provider for transcript analysis. Defaults to ANALYSIS_PROVIDER or auto.",
     )
     analyse_parser.add_argument(
         "--prompt",
@@ -86,7 +101,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--timeout",
         type=float,
         default=60.0,
-        help="OpenAI request timeout in seconds.",
+        help="LLM request timeout in seconds.",
     )
 
     export_parser = subparsers.add_parser(
@@ -193,12 +208,20 @@ def handle_transcript(db_path: Path, limit: int, languages_text: str) -> int:
     return 0
 
 
-def handle_analyse(db_path: Path, limit: int, model: str, prompt_path: Path, timeout: float) -> int:
+def handle_analyse(
+    db_path: Path,
+    limit: int,
+    provider: str | None,
+    model: str | None,
+    prompt_path: Path,
+    timeout: float,
+) -> int:
     """Run the analyse command."""
     logging.info(
-        "Handling analyse command for db=%s limit=%d model=%s prompt=%s timeout=%s",
+        "Handling analyse command for db=%s limit=%d provider=%s model=%s prompt=%s timeout=%s",
         db_path,
         limit,
+        provider,
         model,
         prompt_path,
         timeout,
@@ -214,6 +237,7 @@ def handle_analyse(db_path: Path, limit: int, model: str, prompt_path: Path, tim
         db_path=db_path,
         prompt_path=prompt_path,
         limit=limit,
+        provider=provider,
         model=model,
         timeout_seconds=timeout,
     )
@@ -267,7 +291,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "transcript":
             return handle_transcript(db_path, args.limit, args.languages)
         if args.command == "analyse":
-            return handle_analyse(db_path, args.limit, args.model, Path(args.prompt), args.timeout)
+            return handle_analyse(db_path, args.limit, args.provider, args.model, Path(args.prompt), args.timeout)
         if args.command == "export-dashboard":
             return handle_export_dashboard(db_path, Path(args.output))
         if args.command == "serve-api":
