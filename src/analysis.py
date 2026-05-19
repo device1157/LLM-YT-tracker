@@ -345,18 +345,19 @@ def analyze_transcript(
             model=model,
             prompt_version=PROMPT_VERSION,
             error_message=item.transcript_error,
-        )
+    )
 
     api_key_name = provider_api_key_name(provider)
-    if not os.getenv(api_key_name):
-        logging.error("%s is missing; analysis for %s remains retryable", api_key_name, item.video_id)
+    api_key_val = os.getenv(api_key_name, "")
+    if not api_key_val or "your_" in api_key_val:
+        logging.error("%s is missing or dummy; analysis for %s remains retryable", api_key_name, item.video_id)
         return AnalysisResult(
             video_id=item.video_id,
-            analysis=unavailable_analysis(f"{provider.title()} analysis was not run because {api_key_name} is missing."),
+            analysis=None,
             status="retryable_error",
             model=model,
             prompt_version=PROMPT_VERSION,
-            error_message=f"{api_key_name} is missing.",
+            error_message=f"{api_key_name} is missing or dummy.",
         )
 
     try:
@@ -391,7 +392,7 @@ def retryable_error(video_id: str, model: str, error_message: str) -> AnalysisRe
     logging.info("Building retryable analysis error for %s", video_id)
     return AnalysisResult(
         video_id=video_id,
-        analysis=unavailable_analysis("Analysis failed and should be retried."),
+        analysis=None,
         status="retryable_error",
         model=model,
         prompt_version=PROMPT_VERSION,

@@ -14,16 +14,10 @@ from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 
-try:
-    from youtube_transcript_api.errors import TooManyRequests
-except ImportError:
-    from youtube_transcript_api._errors import TooManyRequests
-
 from src.database import DEFAULT_DB_PATH, get_connection, initialize_database, insert_job_run
 
 DEFAULT_LANGUAGES = ("en", "en-US", "en-GB")
 FAILED_TRANSCRIPT_TEXT = "[Transcript unavailable: captions could not be fetched and Whisper fallback did not run.]"
-PENDING_TRANSCRIPT_TEXT = "[Transcript pending: YouTube captions rate-limited.]"
 MAX_ERROR_LENGTH = 1200
 WHISPER_DIRECT_UPLOAD_LIMIT_BYTES = 24 * 1024 * 1024
 WHISPER_CHUNK_LENGTH_MS = 10 * 60 * 1000
@@ -36,6 +30,7 @@ class VideoForTranscript:
     video_id: str
     title: str
     url: str
+    description: str | None
 
 
 @dataclass(frozen=True)
@@ -64,13 +59,13 @@ def get_videos_missing_transcripts(
     with closing(get_connection(db_path)) as connection:
         rows = connection.execute(
             """
-            SELECT v.video_id, v.title, v.url
+            SELECT v.video_id, v.title, v.url, v.description
             FROM videos v
             LEFT JOIN transcripts t ON t.video_id = v.video_id
             WHERE t.video_id IS NULL
                OR t.status = 'pending'
                OR v.transcript_status = 'pending'
-            ORDER BY v.published_at DESC, v.id DESC
+            ORDER BY COALESCE(t.fetched_at, '') ASC, v.published_at DESC, v.id DESC
             LIMIT ?
             """,
             (limit,),
@@ -81,6 +76,7 @@ def get_videos_missing_transcripts(
             video_id=row["video_id"],
             title=row["title"],
             url=row["url"],
+            description=row["description"],
         )
         for row in rows
     ]
@@ -142,8 +138,11 @@ def fetch_youtube_caption(video_id: str, languages: tuple[str, ...]) -> Transcri
 
 def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception) -> TranscriptResult:
     """Download audio and use OpenAI Whisper as a fallback."""
-    has_api_key = bool(os.getenv("OPENAI_API_KEY"))
-    if not has_api_key:
+    openai_key = os.getenv("OPENAI_API_KEY", "")
+    if "your_" in openai_key:
+        openai_key = ""
+
+    if not openai_key:
         return TranscriptResult(
             video_id=video.video_id,
             source="failed",
@@ -224,20 +223,6 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
             )
 
 
-def is_transient_error(exc: Exception) -> bool:
-    """Detect transient network errors and rate limits."""
-    message = str(exc).lower()
-    return (
-        isinstance(exc, TooManyRequests)
-        or "429" in message
-        or "too many requests" in message
-        or "10013" in message
-        or "connection" in message
-        or "timeout" in message
-        or "max retries exceeded" in message
-    )
-
-
 def truncate_error(message: str) -> str:
     """Keep persisted extraction errors readable and bounded."""
     if len(message) <= MAX_ERROR_LENGTH:
@@ -246,24 +231,88 @@ def truncate_error(message: str) -> str:
     return message[: MAX_ERROR_LENGTH - 3] + "..."
 
 
+def fetch_ytdlp_captions(video: VideoForTranscript) -> TranscriptResult | None:
+    """Download captions using yt-dlp as a free fallback to bypass rate limits."""
+    import tempfile
+    import json
+    import re
+    import os
+    from yt_dlp import YoutubeDL
+
+    logging.info("Falling back to yt-dlp captions for %s", video.video_id)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        ydl_opts = {
+            'skip_download': True,
+            'writesubtitles': True,
+            'writeautomaticsub': True,
+            'subtitleslangs': ['en.*', 'en'],
+            'subtitlesformat': 'json3',
+            'outtmpl': f'{tmpdir}/%(id)s.%(ext)s',
+            'quiet': True,
+            'no_warnings': True,
+        }
+        try:
+            with YoutubeDL(ydl_opts) as ydl:
+                ydl.download([video.url])
+
+            for file in os.listdir(tmpdir):
+                if file.endswith('.json3'):
+                    with open(os.path.join(tmpdir, file), 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    events = data.get('events', [])
+                    text_parts = []
+                    for event in events:
+                        for seg in event.get('segs', []):
+                            t = seg.get('utf8', '')
+                            if t and t != '\n':
+                                text_parts.append(t)
+                    text = ' '.join(text_parts).replace('\n', ' ')
+                    text = re.sub(r'\s+', ' ', text).strip()
+                    if text:
+                        return TranscriptResult(
+                            video_id=video.video_id,
+                            source="yt_dlp_captions",
+                            language="en",
+                            text=text,
+                            status="complete",
+                            error_message=None
+                        )
+        except Exception as e:
+            logging.warning("yt-dlp captions failed for %s: %s", video.video_id, e)
+    return None
+
+
 def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> TranscriptResult:
-    """Fetch transcript text for a video, falling back to Whisper when captions fail."""
+    """Fetch transcript text for a video, falling back to yt-dlp, Whisper, and description."""
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
+
+    # 1. Try youtube-transcript-api
     try:
         return fetch_youtube_caption(video.video_id, languages)
-    except Exception as exc:
-        if is_transient_error(exc):
-            logging.warning("YouTube caption fetch transient error for %s: %s", video.video_id, exc)
-            return TranscriptResult(
-                video_id=video.video_id,
-                source="youtube_captions",
-                language=None,
-                text=PENDING_TRANSCRIPT_TEXT,
-                status="pending",
-                error_message=truncate_error(str(exc)),
-            )
-        logging.exception("YouTube caption fetch failed for %s", video.video_id)
-        return fetch_whisper_fallback(video, exc)
+    except Exception as exc1:
+        logging.warning("youtube-transcript-api failed for %s: %s", video.video_id, exc1)
+
+    # 2. Try yt-dlp captions
+    ytdlp_result = fetch_ytdlp_captions(video)
+    if ytdlp_result:
+        return ytdlp_result
+
+    # 3. Try Whisper
+    whisper_result = fetch_whisper_fallback(video, Exception("Captions APIs failed"))
+    if whisper_result.status == "complete":
+        return whisper_result
+
+    # 4. Ultimate Fallback: Video Description
+    logging.info("Falling back to video description for %s", video.video_id)
+    text = f"Video Title: {video.title}\n\nVideo Description:\n{video.description or 'No description available.'}"
+    return TranscriptResult(
+        video_id=video.video_id,
+        source="video_description",
+        language="en",
+        text=text,
+        status="complete",
+        error_message="Used description as fallback because captions and Whisper failed."
+    )
 
 
 def save_transcript(

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T14:39:21.398Z",
+  "generated_at": "2026-05-19T15:01:49.504Z",
   "stats": {
     "channels": {
       "total": 2
@@ -7,27 +7,49 @@
     "videos": {
       "total": 20,
       "by_transcript_status": {
-        "pending": 20
+        "complete": 20
       },
       "by_analysis_status": {
-        "pending": 20
+        "retryable_error": 20
       },
       "ready": 0,
-      "awaiting_transcript": 20,
+      "awaiting_transcript": 0,
       "awaiting_analysis": 20
     },
     "transcripts": {
-      "total": 10,
+      "total": 20,
       "by_status": {
-        "pending": 10
+        "complete": 20
       }
     },
     "analysis": {
-      "total": 0,
-      "by_status": {}
+      "total": 20,
+      "by_status": {
+        "retryable_error": 20
+      }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "failed",
+          "started_at": "2026-05-19T15:01:41.572Z",
+          "finished_at": "2026-05-19T15:01:41.632Z",
+          "items_processed": 20,
+          "items_succeeded": 0,
+          "items_failed": 20,
+          "error_message": "jz0rNhfAKo8: OPENAI_API_KEY is missing or dummy.\nQVJcdfkRpH8: OPENAI_API_KEY is missing or dummy.\ntxx6ec6MLNY: OPENAI_API_KEY is missing or dummy.\ns4tptozUJ8Y: OPENAI_API_KEY is missing or dummy.\nzizoDORjmlQ: OPENAI_API_KEY is missing or dummy.\nCru804JMjPI: OPENAI_API_KEY is missing or dummy.\n2_DPnzoiHaY: OPENAI_API_KEY is missing or dummy.\n1PxEziv5XIU: OPENAI_API_KEY is missing or dummy.\nIar4yweKGoI: OPENAI_API_KEY is missing or dummy.\nwYs6HWZ2FdM: OPENAI_API_KEY is missing or dummy.\nEWvNQjAaOHw: OPENAI_API_KEY is missing or dummy.\n7xTGNNLPyMI: OPENAI_API_KEY is missing or dummy.\nl8pRSuU81PU: OPENAI_API_KEY is missing or dummy.\nzduSFxRajkE: OPENAI_API_KEY is missing or dummy.\nzjkBMFhNj_g: OPENAI_API_KEY is missing or dummy.\nkCc8FmEb1nY: OPENAI_API_KEY is missing or dummy.\nt3YJ5hKiMQ0: OPENAI_API_KEY is missing or dummy.\nq8SA3rM6ckI: OPENAI_API_KEY is missing or dummy.\nP6sfmUTpUmc: OPENAI_API_KEY is missing or dummy.\nTCH_1BHY58I: OPENAI_API_KEY is missing or dummy."
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-05-19T15:00:31.395Z",
+          "finished_at": "2026-05-19T15:01:33.345Z",
+          "items_processed": 20,
+          "items_succeeded": 20,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -57,26 +79,6 @@
           "items_succeeded": 2,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "partial",
-          "started_at": "2026-05-19T14:37:23.820Z",
-          "finished_at": "2026-05-19T14:37:36.921Z",
-          "items_processed": 10,
-          "items_succeeded": 0,
-          "items_failed": 10,
-          "error_message": "wYs6HWZ2FdM: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=wYs6HWZ2FdM&ei=oXUMavWhCPz5pt8PuLW-oAU&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226641&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=C14EE8A8B091E2469B6830458D72B1ADEDE2FB61.51339AB87C4D0988E973D0745E10CC38FC602FD0&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: wYs6HWZ2FdM\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\nIar4yweKGoI: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=Iar4yweKGoI&ei=onUMavHSDsr8vcAPpbzBqAQ&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226642&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=9EABAE8723355E6D1FBF1B09F4AB854471AECA49.7CB176F0A3F0360C9B0F4F1F82014DCECFAB7D8C&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: Iar4yweKGoI\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\n1PxEziv5XIU: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=1PxEziv5XIU&ei=o3UMavbXE-n9ms0P4bGIyQw&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226643&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=6EF2DB1E3BAC9F758D95C7AB5F034F6834F0C6BB.274761B98AB7C4081792C4A1BD406ABF5D803AB2&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: 1PxEziv5XIU\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\n2_DPnzoiHaY: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=2_DPnzoiHaY&ei=pHUMav-MIvP8pt8PvtHmwA8&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226644&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=D80E81CEFDAA37F307CB14B1B1909933737EC94C.98DD342CF12B5F07D60C8275771EA9DAF8B8AA4A&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: 2_DPnzoiHaY\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\nCru804JMjPI: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=Cru804JMjPI&ei=pXUMaoj5LIm42roP1_fXmAk&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226645&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=9E9D7D03F385F0671E9776C4D014FAFA0D27E94C.1602B56CD0B57B13EE02447EC8BADD5757F20BE5&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: Cru804JMjPI\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\nzizoDORjmlQ: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=zizoDORjmlQ&ei=p3UMav6rEPuVpt8P15LeyQM&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226647&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=D55D4BC33D44827753ACF6456560338D1126435D.20C0D28DBA6C1EBF33F217617EDEE94F0EDD7390&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: zizoDORjmlQ\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\ns4tptozUJ8Y: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=s4tptozUJ8Y&ei=qHUMaqHNLaudvcAP58XVyAM&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226648&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=D33B649EC9674317DCC2FA16622908F9B0CA6B5A.F08D02560586AAD4DCF6BE99E9B5C6B1FFE1B561&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: s4tptozUJ8Y\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\ntxx6ec6MLNY: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=txx6ec6MLNY&ei=qnUMavDJAaKy2roPnvfImAg&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226650&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=C631E2ECADB4A66369704DF68D7FEF24838318A6.74953F8BA0EEC95AB2A98D8402C53B1197BBC427&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: txx6ec6MLNY\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\nQVJcdfkRpH8: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=QVJcdfkRpH8&ei=q3UMar7QF4rzpt8PiNzXsQg&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226651&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=DCEC938429E58F97DD639A356326FB93CDB3EE32.676C2E4E1D3889797872CE76B68E85EE87390724&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: QVJcdfkRpH8\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!\njz0rNhfAKo8: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=jz0rNhfAKo8&ei=rHUMaqmuM_iBvcAPrpOpwQY&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226652&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=C52D5D8B30371E2385573A6D487FD87176500105.967AA7F63C38113B511D1B88601DFF51BCECDEAB&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: jz0rNhfAKo8\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!"
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-05-19T14:37:13.936Z",
-          "finished_at": "2026-05-19T14:37:17.612Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -92,7 +94,7 @@
       "video_count": 148,
       "last_ingested_at": "2026-05-19T14:38:57.431Z",
       "videos_total": 10,
-      "transcripts_complete": 0,
+      "transcripts_complete": 10,
       "transcripts_failed": 0,
       "analysis_complete": 0,
       "analysis_transcript_failed": 0,
@@ -108,7 +110,7 @@
       "video_count": 17,
       "last_ingested_at": "2026-05-19T14:38:57.431Z",
       "videos_total": 10,
-      "transcripts_complete": 0,
+      "transcripts_complete": 10,
       "transcripts_failed": 0,
       "analysis_complete": 0,
       "analysis_transcript_failed": 0,
@@ -129,16 +131,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=jz0rNhfAKo8&ei=AHYMaoizMsejpt8Pop--6QM&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226736&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=BC8266D07992ACB9888AEE0F5F577BC21D666ACE.778E757F2769D623BD8FB200160DDC0544780911&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: jz0rNhfAKo8\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "QVJcdfkRpH8",
@@ -153,16 +155,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=QVJcdfkRpH8&ei=AnYMaviBGbSz2roPmdne2Aw&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226738&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=388388E9AF1731F64493D2FC834264892EBF2834.D21AA76A06F836C919A8F1A70BBD0F4FC44D5A3D&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: QVJcdfkRpH8\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "txx6ec6MLNY",
@@ -177,16 +179,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=txx6ec6MLNY&ei=A3YMaoGuPJaq1d8PtYSLwAg&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226740&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=241AFEE37156F65F8CE498E0B96D161DB0655AA5.2B0036E069D866A8614ED12FABD871A7C9A6C1BB&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: txx6ec6MLNY\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "s4tptozUJ8Y",
@@ -201,16 +203,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=s4tptozUJ8Y&ei=BXYMatPoLeHo2roP9L7lmQs&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226741&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=E1AE07D39126E834B618AD308AD3B96AE9FA5A31.B7F9CAE3ADD5A6188906541DFC0563193AFB6089&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: s4tptozUJ8Y\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "zizoDORjmlQ",
@@ -225,16 +227,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=zizoDORjmlQ&ei=B3YMaryEFe2yms0P44iMmQc&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226743&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=65E4B374ABDCC8258715BC29635878040120D734.BAB5DE1496E5FE84182FDA9D1AFAE4A9E08A35B8&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: zizoDORjmlQ\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "Cru804JMjPI",
@@ -249,16 +251,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=Cru804JMjPI&ei=CHYMapntLJHo2roPgP27iQ0&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226744&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=B12C95EB23CC90893E725165032159F3664AE01D.C786E70EA918868E73D58C39576AF6EC424734AE&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: Cru804JMjPI\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "2_DPnzoiHaY",
@@ -273,16 +275,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=2_DPnzoiHaY&ei=CnYMas2WFc-w2roPtNaMmQE&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226746&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=7D4056A85001CB3F285FF80046785A26659AB4C1.045FCE07846771FB067FB0BE627486734D31C777&key=yt8&kind=asr&lang=en&variant=gemini! This is most likely caused by:\n\nRequest to YouTube failed: 2_DPnzoiHaY\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "1PxEziv5XIU",
@@ -297,16 +299,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=1PxEziv5XIU&ei=C3YMao_JLqKBms0Pur6YsAc&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226747&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=0F9C3929AA934F3087A9D17EA32334263E839FF7.9A4328DF35355902998FF074B799026F560DB2EB&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: 1PxEziv5XIU\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "Iar4yweKGoI",
@@ -321,16 +323,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=Iar4yweKGoI&ei=DXYMat75Aq71vcAP3cr9sAc&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226749&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=9DA6AE772E3E2F8BDEF301679C276FF514984EC4.8C4669299272852CB4AC93CDC49E584D31944312&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: Iar4yweKGoI\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "wYs6HWZ2FdM",
@@ -345,16 +347,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "youtube_captions",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=429 Client Error: Too Many Requests for url: https://www.youtube.com/api/timedtext?v=wYs6HWZ2FdM&ei=DnYMauLpHKXNpt8Pu-7IiAw&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xospf=1&hl=en&ip=0.0.0.0&ipbits=0&expire=1779226750&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=3A5B052DE56D7947E2A2D011FD486A27473AE69D.7609BBDA203B7B3DCC0ADDF0F6B0222E23E14FAB&key=yt8&kind=asr&lang=en! This is most likely caused by:\n\nRequest to YouTube failed: wYs6HWZ2FdM\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "EWvNQjAaOHw",
@@ -369,16 +371,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "7xTGNNLPyMI",
@@ -393,16 +395,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "l8pRSuU81PU",
@@ -417,16 +419,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "zduSFxRajkE",
@@ -441,16 +443,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "zjkBMFhNj_g",
@@ -465,16 +467,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "kCc8FmEb1nY",
@@ -489,16 +491,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "t3YJ5hKiMQ0",
@@ -513,16 +515,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "q8SA3rM6ckI",
@@ -537,16 +539,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "P6sfmUTpUmc",
@@ -561,16 +563,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     },
     {
       "video_id": "TCH_1BHY58I",
@@ -585,16 +587,16 @@
       "topics": [],
       "themes": [],
       "summary": "",
-      "transcript_source": "pending",
-      "transcript_status": "pending",
-      "analysis_status": "pending",
-      "analysis_model": null,
-      "prompt_version": null,
-      "status": "awaiting_transcript",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "retryable_error",
+      "analysis_model": "gpt-4o-mini",
+      "prompt_version": "video-analysis-v1",
+      "status": "awaiting_analysis",
       "confidence": null,
       "ingestion_source": "youtube_api",
-      "transcript_error": null,
-      "analysis_error": null
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": "OPENAI_API_KEY is missing or dummy."
     }
   ]
 }
