@@ -131,28 +131,61 @@ def fetch_youtube_caption(video_id: str, languages: tuple[str, ...]) -> Transcri
     )
 
 
-def fetch_whisper_placeholder(video: VideoForTranscript, previous_error: Exception) -> TranscriptResult:
-    """Provide a runnable placeholder for the optional OpenAI Whisper fallback."""
+def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception) -> TranscriptResult:
+    """Download audio and use OpenAI Whisper as a fallback."""
     has_api_key = bool(os.getenv("OPENAI_API_KEY"))
-    if has_api_key:
-        logging.info(
-            "OPENAI_API_KEY is present, but Whisper fallback is not executed because audio download is not part of Phase 4"
+    if not has_api_key:
+        return TranscriptResult(
+            video_id=video.video_id,
+            source="failed",
+            language=None,
+            text=FAILED_TRANSCRIPT_TEXT,
+            status="failed",
+            error_message="OPENAI_API_KEY missing, Whisper fallback cannot run."
         )
-        whisper_reason = "Whisper fallback placeholder reached; audio download/transcription is not implemented."
-    else:
-        logging.info("OPENAI_API_KEY missing; Whisper fallback cannot run for %s", video.video_id)
-        whisper_reason = "OPENAI_API_KEY is missing, so Whisper fallback cannot run."
 
-    error_message = truncate_error(f"YouTube captions failed: {previous_error}. {whisper_reason}")
-    logging.error("Transcript extraction failed completely for %s: %s", video.video_id, error_message)
-    return TranscriptResult(
-        video_id=video.video_id,
-        source="failed",
-        language=None,
-        text=FAILED_TRANSCRIPT_TEXT,
-        status="failed",
-        error_message=error_message,
-    )
+    logging.info("Falling back to Whisper API for %s", video.video_id)
+    import tempfile
+    from yt_dlp import YoutubeDL
+    from openai import OpenAI
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Download the lowest quality audio to respect OpenAI's 25MB Whisper limit
+        ydl_opts = {
+            'format': 'worstaudio/worst',
+            'outtmpl': f'{tmpdir}/%(id)s.%(ext)s',
+            'quiet': True,
+        }
+        try:
+            with YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(video.url, download=True)
+                audio_path = ydl.prepare_filename(info)
+
+            client = OpenAI()
+            with open(audio_path, "rb") as audio_file:
+                transcript = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file
+                )
+
+            return TranscriptResult(
+                video_id=video.video_id,
+                source="openai_whisper",
+                language="en",
+                text=transcript.text,
+                status="complete",
+                error_message=None,
+            )
+        except Exception as e:
+            logging.exception("Whisper fallback failed for %s", video.video_id)
+            return TranscriptResult(
+                video_id=video.video_id,
+                source="failed",
+                language=None,
+                text=FAILED_TRANSCRIPT_TEXT,
+                status="failed",
+                error_message=truncate_error(f"Captions failed: {previous_error}. Whisper failed: {e}")
+            )
 
 
 def truncate_error(message: str) -> str:
@@ -164,13 +197,13 @@ def truncate_error(message: str) -> str:
 
 
 def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> TranscriptResult:
-    """Fetch transcript text for a video, falling back to a terminal placeholder."""
+    """Fetch transcript text for a video, falling back to Whisper when captions fail."""
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
     try:
         return fetch_youtube_caption(video.video_id, languages)
     except Exception as exc:
         logging.exception("YouTube caption fetch failed for %s", video.video_id)
-        return fetch_whisper_placeholder(video, exc)
+        return fetch_whisper_fallback(video, exc)
 
 
 def save_transcript(

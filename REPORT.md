@@ -10,7 +10,7 @@ The system is a Python 3.13 CLI pipeline backed by SQLite. The pipeline order is
 
 Ingestion reads `config/channels.json`, uses the YouTube Data API when `YOUTUBE_API_KEY` is available, and falls back to `yt-dlp`. The fallback retries derived uploads playlist URLs because channel `/videos` pages can return empty lists in some environments. Channel and video records are upserted with unique IDs to avoid duplicates.
 
-Transcript extraction uses `youtube-transcript-api` first. If captions cannot be retrieved, the system records a terminal failed placeholder in the `transcripts` table and updates `videos.transcript_status`, preventing infinite retries. The OpenAI Whisper fallback is represented as explicit placeholder logic because this build does not download audio.
+Transcript extraction uses `youtube-transcript-api` first. If captions cannot be retrieved and `OPENAI_API_KEY` is configured, the system downloads lowest-quality audio with `yt-dlp` and sends it to OpenAI Whisper (`whisper-1`). If both captions and Whisper fail, the system records a terminal failed placeholder in the `transcripts` table and updates `videos.transcript_status`, preventing infinite retries.
 
 Analysis uses `prompts/video_analysis.md` and a Pydantic `VideoAnalysis` model to enforce strict JSON fields: `summary`, `speakers`, `topics`, `keywords`, `themes`, and `confidence`. Complete transcripts are sent through OpenAI structured parsing. Failed transcript placeholders are recorded as schema-valid `Unavailable` analyses with `analysis_status='transcript_failed'`.
 
@@ -43,6 +43,6 @@ The build was evaluated phase by phase with direct CLI commands and SQLite check
 
 Local verification completed the full runnable pipeline through export and frontend rendering. The current snapshot contains 2 channels and 20 videos.
 
-Transcript retrieval reached YouTube but was rate-limited with HTTP 429 in this environment. The failure behavior worked as designed: all 20 videos received failed transcript placeholders, preventing infinite retries. Analysis then created 20 schema-valid `Unavailable` records with `confidence=0.0` and `analysis_status='transcript_failed'`.
+Transcript retrieval reached YouTube but was rate-limited with HTTP 429 in this environment. Because no usable `OPENAI_API_KEY` was available locally, Whisper could not run; all 20 videos received failed transcript placeholders, preventing infinite retries. Analysis then created 20 schema-valid `Unavailable` records with `confidence=0.0` and `analysis_status='transcript_failed'`.
 
 Because the local environment did not provide usable captions or an `OPENAI_API_KEY`, no transcript-grounded OpenAI summaries were generated locally. The structured OpenAI path is implemented and will run automatically for future rows whose transcript status is `complete` when `OPENAI_API_KEY` is configured.

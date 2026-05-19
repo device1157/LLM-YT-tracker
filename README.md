@@ -7,7 +7,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 - A Python CLI pipeline for `init-db`, `ingest`, `transcript`, `analyse`, `export-dashboard`, and `serve-api`.
 - A SQLite database at `tracker.db` with channels, videos, transcripts, analysis rows, and job run history.
 - YouTube ingestion with API-first behavior and a `yt-dlp` fallback.
-- Transcript extraction using YouTube captions first, with terminal failure placeholders to prevent retry loops.
+- Transcript extraction using YouTube captions first, with an OpenAI Whisper audio fallback and terminal failure records to prevent retry loops.
 - LLM analysis using OpenAI structured output plus a strict Pydantic contract.
 - A static dashboard in `docs/` that works on GitHub Pages.
 - A FastAPI backend with dashboard data endpoints.
@@ -22,7 +22,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 - YouTube Data API v3 via `google-api-python-client`
 - `yt-dlp` as ingestion fallback
 - `youtube-transcript-api` for captions
-- OpenAI Python SDK for structured transcript analysis
+- OpenAI Python SDK for Whisper transcription fallback and structured transcript analysis
 - Pydantic for output validation
 - Vanilla HTML, CSS, and JavaScript for the static dashboard
 - GitHub Pages plus GitHub Actions for public hosting and scheduled refresh
@@ -45,7 +45,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 │   ├── database.py                # SQLite schema and helpers
 │   ├── export.py                  # Dashboard JSON export
 │   ├── ingestion.py               # YouTube API and yt-dlp ingestion
-│   └── transcription.py           # Caption fetching and placeholders
+│   └── transcription.py           # Caption fetching and Whisper fallback
 ├── main.py                        # CLI entry point
 ├── requirements.txt               # Pinned Python dependencies
 ├── .env.example                   # Required environment variable template
@@ -96,7 +96,7 @@ Serve the static dashboard locally:
 
 - `init-db`: Creates the SQLite schema idempotently.
 - `ingest`: Reads `config/channels.json`, fetches channel/video metadata, and upserts rows.
-- `transcript`: Finds videos missing terminal transcript rows, fetches captions, and stores text or a failed placeholder.
+- `transcript`: Finds videos missing terminal transcript rows, fetches captions, falls back to Whisper, and stores text or a terminal failure record.
 - `analyse`: Finds transcripts needing analysis, calls OpenAI for complete transcripts, and stores schema-valid analysis rows.
 - `export-dashboard`: Writes `docs/data/latest.json`.
 - `serve-api`: Starts the FastAPI backend on `127.0.0.1:8000` by default.
@@ -170,8 +170,8 @@ Transcript fetching starts with YouTube captions through `youtube-transcript-api
 - YouTube blocks unauthenticated/bot-like requests.
 - Network access is unavailable in the runtime environment.
 
-When extraction fails completely, the system writes a terminal failed placeholder into `transcripts` and updates `videos.transcript_status='failed'`. This is intentional: it prevents infinite retry loops and lets the dashboard show a clear pending/failed state.
+When caption extraction fails, the system attempts an OpenAI Whisper fallback if `OPENAI_API_KEY` is configured. It downloads lowest-quality audio with `yt-dlp` into a temporary directory, submits the file to `whisper-1`, and stores successful output with `source='openai_whisper'`.
 
-The OpenAI Whisper fallback is represented as explicit placeholder logic in this build. A production implementation would add audio download, file size controls, rate limits, and privacy/storage handling before calling Whisper.
+When extraction fails completely, or when `OPENAI_API_KEY` is missing, the system writes a terminal failed record into `transcripts` and updates `videos.transcript_status='failed'`. This is intentional: it prevents infinite retry loops and lets the dashboard show a clear pending/failed state.
 
 Analysis only performs transcript-grounded OpenAI analysis when `transcripts.status='complete'`. Failed transcript placeholders are stored as schema-valid `Unavailable` analysis rows, so export and dashboard rendering stay reliable even when captions are unavailable.
