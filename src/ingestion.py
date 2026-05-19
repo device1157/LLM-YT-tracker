@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -204,21 +205,22 @@ def fetch_with_youtube_api(
         video_count=parse_int(statistics.get("videoCount")),
     )
 
-    search_response = (
-        youtube.search()
+    if not channel_record.uploads_playlist_id:
+        raise RuntimeError(f"YouTube API returned no uploads playlist for {channel.channel_id}")
+
+    playlist_response = (
+        youtube.playlistItems()
         .list(
             part="snippet",
-            channelId=channel.channel_id,
+            playlistId=channel_record.uploads_playlist_id,
             maxResults=min(max_videos, 50),
-            order="date",
-            type="video",
         )
         .execute()
     )
     ids = [
-        item.get("id", {}).get("videoId")
-        for item in search_response.get("items", [])
-        if item.get("id", {}).get("videoId")
+        item.get("snippet", {}).get("resourceId", {}).get("videoId")
+        for item in playlist_response.get("items", [])
+        if item.get("snippet", {}).get("resourceId", {}).get("videoId")
     ]
     logging.info("YouTube API returned %d video ids for %s", len(ids), channel.channel_id)
     if not ids:
@@ -498,7 +500,7 @@ def ingest_channels(
     source_counts: dict[str, int] = {}
     ingested_at = utc_now()
 
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         for channel in channels:
             processed += 1
             logging.info("Processing channel %s (%s)", channel.name, channel.channel_id)

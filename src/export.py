@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from contextlib import closing
 from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
@@ -199,7 +200,6 @@ def query_videos(connection: Any) -> list[dict[str, Any]]:
             c.channel_id,
             c.title AS channel_title,
             t.source AS transcript_source,
-            t.text AS transcript_text,
             t.status AS transcript_row_status,
             t.error_message AS transcript_error,
             a.summary,
@@ -258,7 +258,7 @@ def build_dashboard_data(db_path: Path | str = DEFAULT_DB_PATH) -> dict[str, Any
     """Build the full dashboard snapshot payload from SQLite."""
     logging.info("Building dashboard snapshot from database %s", db_path)
     initialize_database(db_path)
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         stats = query_stats(connection)
         channels = query_channels(connection)
         videos = query_videos(connection)

@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -23,7 +24,7 @@ DEFAULT_ANALYSIS_MODEL = DEFAULT_OPENAI_ANALYSIS_MODEL
 DEFAULT_ANALYSIS_PROVIDER = "auto"
 SUPPORTED_ANALYSIS_PROVIDERS = ("auto", "openai", "gemini")
 PROMPT_VERSION = "video-analysis-v1"
-MAX_TRANSCRIPT_CHARS = 60000
+MAX_TRANSCRIPT_CHARS = 400000
 
 AnalysisProvider = Literal["openai", "gemini"]
 
@@ -103,7 +104,7 @@ def get_unanalyzed_transcripts(
 ) -> list[TranscriptForAnalysis]:
     """Return transcript rows that need analysis or terminal analysis status."""
     logging.info("Querying up to %d transcripts pending analysis", limit)
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         rows = connection.execute(
             """
             SELECT
@@ -487,7 +488,7 @@ def analyze_pending_transcripts(
     errors: list[str] = []
     status_counts: dict[str, int] = {}
 
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         for transcript in transcripts:
             processed += 1
             result = analyze_transcript(

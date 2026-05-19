@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from typing import Any
 
@@ -135,7 +136,7 @@ def initialize_database(db_path: Path | str = DEFAULT_DB_PATH) -> None:
     ]
 
     try:
-        with get_connection(database_path) as connection:
+        with closing(get_connection(database_path)) as connection:
             for statement in schema_statements:
                 logging.info("Applying database schema statement")
                 connection.execute(statement)
@@ -157,7 +158,7 @@ def initialize_database(db_path: Path | str = DEFAULT_DB_PATH) -> None:
 def list_tables(db_path: Path | str = DEFAULT_DB_PATH) -> list[str]:
     """Return user-created SQLite tables."""
     logging.info("Listing tables in database %s", db_path)
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         rows = connection.execute(
             """
             SELECT name
@@ -186,7 +187,7 @@ def insert_job_run(
     """Insert a job run record and return its row id."""
     logging.info("Recording job run for %s with status %s", job_name, status)
     details_json = json.dumps(details or {}, sort_keys=True)
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         cursor = connection.execute(
             """
             INSERT INTO job_runs (

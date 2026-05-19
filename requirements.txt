@@ -6,4 +6,5 @@ youtube-transcript-api==0.6.3
 openai==1.75.0
 google-genai==2.4.0
 pydantic==2.11.3
+pydub==0.25.1
 python-dotenv==1.1.0

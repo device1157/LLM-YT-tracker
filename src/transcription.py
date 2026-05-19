@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -13,11 +14,19 @@ from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 
+try:
+    from youtube_transcript_api.errors import TooManyRequests
+except ImportError:
+    from youtube_transcript_api._errors import TooManyRequests
+
 from src.database import DEFAULT_DB_PATH, get_connection, initialize_database, insert_job_run
 
 DEFAULT_LANGUAGES = ("en", "en-US", "en-GB")
 FAILED_TRANSCRIPT_TEXT = "[Transcript unavailable: captions could not be fetched and Whisper fallback did not run.]"
+PENDING_TRANSCRIPT_TEXT = "[Transcript pending: YouTube captions rate-limited.]"
 MAX_ERROR_LENGTH = 1200
+WHISPER_DIRECT_UPLOAD_LIMIT_BYTES = 24 * 1024 * 1024
+WHISPER_CHUNK_LENGTH_MS = 10 * 60 * 1000
 
 
 @dataclass(frozen=True)
@@ -52,7 +61,7 @@ def get_videos_missing_transcripts(
 ) -> list[VideoForTranscript]:
     """Return videos with no terminal transcript row yet."""
     logging.info("Querying up to %d videos missing transcripts", limit)
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         rows = connection.execute(
             """
             SELECT v.video_id, v.title, v.url
@@ -146,6 +155,7 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
 
     logging.info("Falling back to Whisper API for %s", video.video_id)
     import tempfile
+    from pydub import AudioSegment
     from yt_dlp import YoutubeDL
     from openai import OpenAI
 
@@ -162,17 +172,43 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
                 audio_path = ydl.prepare_filename(info)
 
             client = OpenAI()
-            with open(audio_path, "rb") as audio_file:
-                transcript = client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio_file
+            audio_size = os.path.getsize(audio_path)
+            if audio_size < WHISPER_DIRECT_UPLOAD_LIMIT_BYTES:
+                with open(audio_path, "rb") as audio_file:
+                    transcript = client.audio.transcriptions.create(
+                        model="whisper-1",
+                        file=audio_file
+                    )
+                transcript_text = transcript.text
+            else:
+                logging.info(
+                    "Audio for %s is %.2fMB; chunking for Whisper API",
+                    video.video_id,
+                    audio_size / (1024 * 1024),
                 )
+                audio = AudioSegment.from_file(audio_path)
+                transcript_parts: list[str] = []
+                for chunk_number, start_ms in enumerate(range(0, len(audio), WHISPER_CHUNK_LENGTH_MS), start=1):
+                    chunk = audio[start_ms: start_ms + WHISPER_CHUNK_LENGTH_MS]
+                    chunk_path = Path(tmpdir) / f"{video.video_id}_chunk_{chunk_number}.mp3"
+                    try:
+                        chunk.export(chunk_path, format="mp3")
+                        with chunk_path.open("rb") as audio_file:
+                            transcript = client.audio.transcriptions.create(
+                                model="whisper-1",
+                                file=audio_file
+                            )
+                        transcript_parts.append(transcript.text.strip())
+                    finally:
+                        if chunk_path.exists():
+                            chunk_path.unlink()
+                transcript_text = "\n\n".join(part for part in transcript_parts if part)
 
             return TranscriptResult(
                 video_id=video.video_id,
                 source="openai_whisper",
                 language="en",
-                text=transcript.text,
+                text=transcript_text,
                 status="complete",
                 error_message=None,
             )
@@ -188,6 +224,12 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
             )
 
 
+def is_rate_limited_error(exc: Exception) -> bool:
+    """Detect YouTube transcript rate limit responses across library versions."""
+    message = str(exc)
+    return isinstance(exc, TooManyRequests) or "429" in message or "Too Many Requests" in message
+
+
 def truncate_error(message: str) -> str:
     """Keep persisted extraction errors readable and bounded."""
     if len(message) <= MAX_ERROR_LENGTH:
@@ -201,7 +243,27 @@ def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> T
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
     try:
         return fetch_youtube_caption(video.video_id, languages)
+    except TooManyRequests as exc:
+        logging.warning("YouTube caption fetch rate-limited for %s: %s", video.video_id, exc)
+        return TranscriptResult(
+            video_id=video.video_id,
+            source="youtube_captions",
+            language=None,
+            text=PENDING_TRANSCRIPT_TEXT,
+            status="pending",
+            error_message=truncate_error(str(exc)),
+        )
     except Exception as exc:
+        if is_rate_limited_error(exc):
+            logging.warning("YouTube caption fetch rate-limited for %s: %s", video.video_id, exc)
+            return TranscriptResult(
+                video_id=video.video_id,
+                source="youtube_captions",
+                language=None,
+                text=PENDING_TRANSCRIPT_TEXT,
+                status="pending",
+                error_message=truncate_error(str(exc)),
+            )
         logging.exception("YouTube caption fetch failed for %s", video.video_id)
         return fetch_whisper_fallback(video, exc)
 
@@ -284,7 +346,7 @@ def transcribe_missing_videos(
     errors: list[str] = []
     source_counts: dict[str, int] = {}
 
-    with get_connection(db_path) as connection:
+    with closing(get_connection(db_path)) as connection:
         for video in videos:
             processed += 1
             logging.info("Processing transcript for video %s", video.video_id)
