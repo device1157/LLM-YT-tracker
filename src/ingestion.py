@@ -8,7 +8,7 @@ import os
 import re
 from contextlib import closing
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import timezone, datetime
 from pathlib import Path
 from typing import Any
 
@@ -63,7 +63,7 @@ class VideoRecord:
 
 def utc_now() -> str:
     """Return an ISO-8601 UTC timestamp."""
-    return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def load_channel_config(config_path: Path | str = DEFAULT_CHANNELS_CONFIG) -> list[ChannelConfig]:

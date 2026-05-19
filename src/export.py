@@ -6,7 +6,7 @@ import json
 import logging
 from contextlib import closing
 from collections import Counter
-from datetime import UTC, datetime
+from datetime import timezone, datetime
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +17,7 @@ DEFAULT_SNAPSHOT_PATH = Path("docs/data/latest.json")
 
 def utc_now() -> str:
     """Return an ISO-8601 UTC timestamp."""
-    return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def safe_json_list(value: str | None) -> list[Any]:

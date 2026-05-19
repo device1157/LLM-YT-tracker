@@ -6,7 +6,7 @@ import logging
 import os
 from contextlib import closing
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import timezone, datetime
 from pathlib import Path
 from typing import Any
 
@@ -52,7 +52,7 @@ class TranscriptResult:
 
 def utc_now() -> str:
     """Return an ISO-8601 UTC timestamp."""
-    return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def get_videos_missing_transcripts(
@@ -224,10 +224,18 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
             )
 
 
-def is_rate_limited_error(exc: Exception) -> bool:
-    """Detect YouTube transcript rate limit responses across library versions."""
-    message = str(exc)
-    return isinstance(exc, TooManyRequests) or "429" in message or "Too Many Requests" in message
+def is_transient_error(exc: Exception) -> bool:
+    """Detect transient network errors and rate limits."""
+    message = str(exc).lower()
+    return (
+        isinstance(exc, TooManyRequests)
+        or "429" in message
+        or "too many requests" in message
+        or "10013" in message
+        or "connection" in message
+        or "timeout" in message
+        or "max retries exceeded" in message
+    )
 
 
 def truncate_error(message: str) -> str:
@@ -243,19 +251,9 @@ def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> T
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
     try:
         return fetch_youtube_caption(video.video_id, languages)
-    except TooManyRequests as exc:
-        logging.warning("YouTube caption fetch rate-limited for %s: %s", video.video_id, exc)
-        return TranscriptResult(
-            video_id=video.video_id,
-            source="youtube_captions",
-            language=None,
-            text=PENDING_TRANSCRIPT_TEXT,
-            status="pending",
-            error_message=truncate_error(str(exc)),
-        )
     except Exception as exc:
-        if is_rate_limited_error(exc):
-            logging.warning("YouTube caption fetch rate-limited for %s: %s", video.video_id, exc)
+        if is_transient_error(exc):
+            logging.warning("YouTube caption fetch transient error for %s: %s", video.video_id, exc)
             return TranscriptResult(
                 video_id=video.video_id,
                 source="youtube_captions",

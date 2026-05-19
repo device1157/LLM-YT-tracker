@@ -7,7 +7,7 @@ import logging
 import os
 from contextlib import closing
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import timezone, datetime
 from pathlib import Path
 from typing import Any, Literal
 
@@ -83,7 +83,7 @@ class AnalysisResult:
 
 def utc_now() -> str:
     """Return an ISO-8601 UTC timestamp."""
-    return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def load_prompt(prompt_path: Path | str = DEFAULT_PROMPT_PATH) -> str:
@@ -121,8 +121,12 @@ def get_unanalyzed_transcripts(
             JOIN videos v ON v.video_id = t.video_id
             JOIN channels c ON c.channel_id = v.channel_id
             LEFT JOIN analysis a ON a.video_id = t.video_id
-            WHERE a.video_id IS NULL
-               OR a.status IN ('pending', 'retryable_error')
+            WHERE t.status != 'pending'
+              AND (
+                  a.video_id IS NULL
+                  OR a.status IN ('pending', 'retryable_error')
+                  OR v.analysis_status = 'pending'
+              )
             ORDER BY
                 CASE WHEN t.status = 'complete' THEN 0 ELSE 1 END,
                 v.published_at DESC,
