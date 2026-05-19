@@ -25,6 +25,7 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 - OpenAI Python SDK for Whisper transcription fallback and OpenAI transcript analysis
 - Google Gen AI SDK for Gemini transcript analysis
 - Pydantic for output validation
+- `ffmpeg` installed on the host OS for Whisper audio chunking through `pydub` (`apt`, `brew`, or the official Windows builds)
 - Vanilla HTML, CSS, and JavaScript for the static dashboard
 - GitHub Pages plus GitHub Actions for public hosting and scheduled refresh
 
@@ -32,45 +33,64 @@ An automated tracker for LLM-focused YouTube channels. It ingests recent videos,
 
 ```text
 .
-├── .github/workflows/tracker.yml  # Scheduled refresh workflow
-├── config/channels.json           # Tracked YouTube channel config
-├── docs/
-│   ├── index.html                 # Static dashboard
-│   ├── style.css                  # Dashboard styling
-│   ├── app.js                     # Dashboard data loading and rendering
-│   └── data/latest.json           # Exported static dashboard snapshot
-├── prompts/video_analysis.md      # Strict JSON analysis prompt
-├── src/
-│   ├── api.py                     # FastAPI app and routes
-│   ├── analysis.py                # OpenAI/Gemini structured analysis
-│   ├── database.py                # SQLite schema and helpers
-│   ├── export.py                  # Dashboard JSON export
-│   ├── ingestion.py               # YouTube API and yt-dlp ingestion
-│   └── transcription.py           # Caption fetching and Whisper fallback
-├── main.py                        # CLI entry point
-├── requirements.txt               # Pinned Python dependencies
-├── .env.example                   # Required environment variable template
-├── tracker.db                     # Local SQLite database after init/run
-└── REPORT.md                      # Submission report
+|-- .github/workflows/tracker.yml  # Scheduled refresh workflow
+|-- config/channels.json           # Tracked YouTube channel config
+|-- docs/
+|   |-- index.html                 # Static dashboard
+|   |-- style.css                  # Dashboard styling
+|   |-- app.js                     # Dashboard data loading and rendering
+|   `-- data/latest.json           # Exported static dashboard snapshot
+|-- prompts/video_analysis.md      # Strict JSON analysis prompt
+|-- src/
+|   |-- api.py                     # FastAPI app and routes
+|   |-- analysis.py                # OpenAI/Gemini structured analysis
+|   |-- database.py                # SQLite schema and helpers
+|   |-- export.py                  # Dashboard JSON export
+|   |-- ingestion.py               # YouTube API and yt-dlp ingestion
+|   `-- transcription.py           # Caption fetching and Whisper fallback
+|-- main.py                        # CLI entry point
+|-- requirements.txt               # Pinned Python dependencies
+|-- .env.example                   # Required environment variable template
+|-- tracker.db                     # Local SQLite database after init/run
+`-- REPORT.md                      # Submission report
 ```
 
 ## Quick Start
 
-Create and activate a virtual environment, then install dependencies:
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Unix/Mac:
+
+```bash
+source .venv/bin/activate
+```
+
+Activate it on Windows:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\activate
 ```
+
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Install `ffmpeg` on the host OS before using the Whisper fallback. `pydub` requires `ffmpeg` to chunk downloaded audio; use `apt`, `brew`, or download an official Windows build.
 
 If `python` is not on PATH, use the interpreter available in your environment. In this workspace, commands were verified with:
 
-```powershell
-.\.venv\Scripts\python.exe main.py init-db
-.\.venv\Scripts\python.exe main.py ingest
-.\.venv\Scripts\python.exe main.py transcript
-.\.venv\Scripts\python.exe main.py analyse
-.\.venv\Scripts\python.exe main.py export-dashboard
+```bash
+python main.py init-db
+python main.py ingest
+python main.py transcript
+python main.py analyse
+python main.py export-dashboard
 ```
 
 Optional API keys:
@@ -83,14 +103,14 @@ Then set `YOUTUBE_API_KEY`, `OPENAI_API_KEY`, and/or `GEMINI_API_KEY` in `.env`.
 
 Serve the API:
 
-```powershell
-.\.venv\Scripts\python.exe main.py serve-api
+```bash
+python main.py serve-api
 ```
 
 Serve the static dashboard locally:
 
-```powershell
-.\.venv\Scripts\python.exe -m http.server 8765 --directory docs
+```bash
+python -m http.server 8765 --directory docs
 ```
 
 ## CLI Commands
@@ -104,14 +124,14 @@ Serve the static dashboard locally:
 
 Useful flags:
 
-```powershell
-.\.venv\Scripts\python.exe main.py --db tracker.db init-db
-.\.venv\Scripts\python.exe main.py ingest --max-videos 10
-.\.venv\Scripts\python.exe main.py transcript --limit 50
-.\.venv\Scripts\python.exe main.py analyse --limit 50 --model gpt-4o-mini
-.\.venv\Scripts\python.exe main.py analyse --limit 50 --provider gemini --model gemini-2.5-flash
-.\.venv\Scripts\python.exe main.py export-dashboard --output docs/data/latest.json
-.\.venv\Scripts\python.exe main.py serve-api --host 127.0.0.1 --port 8000
+```bash
+python main.py --db tracker.db init-db
+python main.py ingest --max-videos 10
+python main.py transcript --limit 50
+python main.py analyse --limit 50 --model gpt-4o-mini
+python main.py analyse --limit 50 --provider gemini --model gemini-2.5-flash
+python main.py export-dashboard --output docs/data/latest.json
+python main.py serve-api --host 127.0.0.1 --port 8000
 ```
 
 ## Data Model
@@ -144,7 +164,7 @@ The workflow:
 
 1. Checks out the repo.
 2. Sets up Python 3.13.
-3. Installs `requirements.txt`.
+3. Installs `ffmpeg` and `requirements.txt`.
 4. Runs `init-db`.
 5. Runs `ingest` with `YOUTUBE_API_KEY` from repository secrets.
 6. Runs `transcript` with `OPENAI_API_KEY` available for fallback logic.

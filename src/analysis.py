@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from dotenv import load_dotenv
-from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
+from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI, RateLimitError
 from pydantic import BaseModel, Field, ValidationError
 
 from src.database import DEFAULT_DB_PATH, get_connection, initialize_database, insert_job_run
@@ -25,6 +25,10 @@ DEFAULT_ANALYSIS_PROVIDER = "auto"
 SUPPORTED_ANALYSIS_PROVIDERS = ("auto", "openai", "gemini")
 PROMPT_VERSION = "video-analysis-v1"
 MAX_TRANSCRIPT_CHARS = 400000
+OPENAI_QUOTA_EXCEEDED_MESSAGE = (
+    "CRITICAL: OpenAI quota exceeded. Please add billing credits at platform.openai.com "
+    "or switch to the Gemini provider using `--provider gemini`."
+)
 
 AnalysisProvider = Literal["openai", "gemini"]
 
@@ -245,6 +249,24 @@ def provider_api_key_name(provider: AnalysisProvider) -> str:
     return "OPENAI_API_KEY"
 
 
+def is_openai_insufficient_quota(exc: RateLimitError) -> bool:
+    """Return True when an OpenAI rate-limit error is caused by exhausted quota."""
+    candidates: list[Any] = [
+        getattr(exc, "code", None),
+        getattr(exc, "type", None),
+        getattr(exc, "message", None),
+        str(exc),
+    ]
+    body = getattr(exc, "body", None)
+    if isinstance(body, dict):
+        candidates.extend([body.get("code"), body.get("type"), body.get("message")])
+        error = body.get("error")
+        if isinstance(error, dict):
+            candidates.extend([error.get("code"), error.get("type"), error.get("message")])
+
+    return any("insufficient_quota" in str(candidate).lower() for candidate in candidates if candidate)
+
+
 def analyze_with_openai(
     item: TranscriptForAnalysis,
     prompt: str,
@@ -294,18 +316,18 @@ def analyze_with_gemini(
         system_instruction=prompt,
         temperature=0,
         response_mime_type="application/json",
-        response_json_schema=VideoAnalysis.model_json_schema(),
+        response_schema=VideoAnalysis,
     )
 
-    with genai.Client(
+    client = genai.Client(
         api_key=api_key,
         http_options=types.HttpOptions(timeout=timeout_ms),
-    ) as client:
-        response = client.models.generate_content(
-            model=model,
-            contents=build_user_payload(item),
-            config=config,
-        )
+    )
+    response = client.models.generate_content(
+        model=model,
+        contents=build_user_payload(item),
+        config=config,
+    )
 
     parsed_payload = getattr(response, "parsed", None)
     if isinstance(parsed_payload, VideoAnalysis):
@@ -376,6 +398,13 @@ def analyze_transcript(
     except (APITimeoutError, TimeoutError) as exc:
         logging.exception("%s analysis timed out for %s", provider.title(), item.video_id)
         return retryable_error(item.video_id, model, f"{provider.title()} timeout: {exc}")
+    except RateLimitError as exc:
+        if provider == "openai" and is_openai_insufficient_quota(exc):
+            logging.error(OPENAI_QUOTA_EXCEEDED_MESSAGE)
+            return failed_error(item.video_id, model, OPENAI_QUOTA_EXCEEDED_MESSAGE)
+
+        logging.warning("%s rate limit error for %s: %s", provider.title(), item.video_id, exc)
+        return retryable_error(item.video_id, model, f"{provider.title()} rate limit: {exc}")
     except (APIConnectionError, APIStatusError) as exc:
         logging.exception("%s API error for %s", provider.title(), item.video_id)
         return retryable_error(item.video_id, model, f"{provider.title()} API error: {exc}")
@@ -394,6 +423,19 @@ def retryable_error(video_id: str, model: str, error_message: str) -> AnalysisRe
         video_id=video_id,
         analysis=None,
         status="retryable_error",
+        model=model,
+        prompt_version=PROMPT_VERSION,
+        error_message=error_message,
+    )
+
+
+def failed_error(video_id: str, model: str, error_message: str) -> AnalysisResult:
+    """Create a terminal failed analysis result."""
+    logging.info("Building terminal analysis failure for %s", video_id)
+    return AnalysisResult(
+        video_id=video_id,
+        analysis=None,
+        status="failed",
         model=model,
         prompt_version=PROMPT_VERSION,
         error_message=error_message,
@@ -489,6 +531,7 @@ def analyze_pending_transcripts(
     processed = 0
     succeeded = 0
     retryable = 0
+    failed = 0
     skipped = 0
     errors: list[str] = []
     status_counts: dict[str, int] = {}
@@ -512,11 +555,14 @@ def analyze_pending_transcripts(
             elif result.status == "retryable_error":
                 retryable += 1
                 errors.append(f"{result.video_id}: {result.error_message}")
+            elif result.status == "failed":
+                failed += 1
+                errors.append(f"{result.video_id}: {result.error_message}")
             elif result.status == "transcript_failed":
                 skipped += 1
             logging.info("Finished analysis handling for %s", transcript.video_id)
 
-    status = "success" if retryable == 0 else "partial" if succeeded or skipped else "failed"
+    status = "success" if retryable == 0 and failed == 0 else "partial" if succeeded or skipped else "failed"
     finished_at = utc_now()
     details = {
         "limit": limit,
@@ -533,7 +579,7 @@ def analyze_pending_transcripts(
         finished_at=finished_at,
         items_processed=processed,
         items_succeeded=succeeded,
-        items_failed=retryable,
+        items_failed=retryable + failed,
         error_message="\n".join(errors) if errors else None,
         details=details,
         db_path=db_path,
@@ -544,6 +590,7 @@ def analyze_pending_transcripts(
         "videos_processed": processed,
         "videos_succeeded": succeeded,
         "videos_retryable": retryable,
+        "videos_failed": failed,
         "videos_skipped": skipped,
         "errors": errors,
     }

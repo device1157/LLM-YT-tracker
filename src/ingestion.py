@@ -278,9 +278,36 @@ class YtdlpLogger:
         logging.error("yt-dlp: %s", message)
 
 
+class YtdlpCookieRequiredError(RuntimeError):
+    """Raised when YouTube blocks yt-dlp and cookie auth is likely required."""
+
+
+def add_ytdlp_cookie_options(options: dict[str, Any]) -> None:
+    """Attach optional YouTube cookie settings to a yt-dlp options dict."""
+    cookies_file = os.getenv("YOUTUBE_COOKIES_FILE")
+    if cookies_file:
+        options["cookiefile"] = cookies_file
+
+    browser_cookies = os.getenv("YOUTUBE_BROWSER_COOKIES")
+    if browser_cookies:
+        options["cookiesfrombrowser"] = (browser_cookies,)
+
+
+def log_ytdlp_cookie_error(action: str, target: str, exc: Exception) -> None:
+    """Log a concise hint for YouTube bot-check failures."""
+    logging.error(
+        "yt-dlp %s failed for %s. YouTube is likely requiring cookies to bypass its bot check. "
+        "Set YOUTUBE_COOKIES_FILE or YOUTUBE_BROWSER_COOKIES. Error: %s",
+        action,
+        target,
+        exc,
+    )
+
+
 def fetch_with_ytdlp(channel: ChannelConfig, max_videos: int) -> tuple[ChannelRecord, list[VideoRecord]]:
     """Fetch channel and latest videos through yt-dlp."""
     logging.info("Fetching channel %s via yt-dlp fallback", channel.channel_id)
+    import yt_dlp
     from yt_dlp import YoutubeDL
 
     options = {
@@ -292,11 +319,19 @@ def fetch_with_ytdlp(channel: ChannelConfig, max_videos: int) -> tuple[ChannelRe
         "quiet": True,
         "skip_download": True,
     }
+    add_ytdlp_cookie_options(options)
 
     def extract(url: str) -> Any:
         logging.info("Running yt-dlp extraction for %s", url)
-        with YoutubeDL(options) as ydl:
-            return ydl.extract_info(url, download=False)
+        try:
+            with YoutubeDL(options) as ydl:
+                return ydl.extract_info(url, download=False)
+        except (yt_dlp.utils.DownloadError, yt_dlp.utils.ExtractorError) as exc:
+            log_ytdlp_cookie_error("metadata extraction", channel.channel_id, exc)
+            raise YtdlpCookieRequiredError(
+                "yt-dlp was blocked by YouTube. Configure YOUTUBE_COOKIES_FILE or "
+                "YOUTUBE_BROWSER_COOKIES to provide authenticated YouTube cookies."
+            ) from None
 
     info = extract(channel.url)
     fallback_url = uploads_playlist_url(channel.channel_id)
@@ -525,6 +560,12 @@ def ingest_channels(
                 connection.commit()
                 succeeded += 1
                 logging.info("Finished channel %s with %d videos", channel.channel_id, len(videos))
+            except YtdlpCookieRequiredError as exc:
+                connection.rollback()
+                failed += 1
+                message = f"{channel.channel_id}: {exc}"
+                errors.append(message)
+                logging.error("Failed to ingest channel %s: %s", channel.channel_id, exc)
             except Exception as exc:
                 connection.rollback()
                 failed += 1

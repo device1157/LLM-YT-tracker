@@ -23,6 +23,28 @@ WHISPER_DIRECT_UPLOAD_LIMIT_BYTES = 24 * 1024 * 1024
 WHISPER_CHUNK_LENGTH_MS = 10 * 60 * 1000
 
 
+def add_ytdlp_cookie_options(options: dict[str, Any]) -> None:
+    """Attach optional YouTube cookie settings to a yt-dlp options dict."""
+    cookies_file = os.getenv("YOUTUBE_COOKIES_FILE")
+    if cookies_file:
+        options["cookiefile"] = cookies_file
+
+    browser_cookies = os.getenv("YOUTUBE_BROWSER_COOKIES")
+    if browser_cookies:
+        options["cookiesfrombrowser"] = (browser_cookies,)
+
+
+def log_ytdlp_cookie_error(action: str, video_id: str, exc: Exception) -> None:
+    """Log a concise hint for YouTube bot-check failures."""
+    logging.error(
+        "yt-dlp %s failed for %s. YouTube is likely requiring cookies to bypass its bot check. "
+        "Set YOUTUBE_COOKIES_FILE or YOUTUBE_BROWSER_COOKIES. Error: %s",
+        action,
+        video_id,
+        exc,
+    )
+
+
 @dataclass(frozen=True)
 class VideoForTranscript:
     """Minimal video data needed to fetch a transcript."""
@@ -155,6 +177,7 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
     logging.info("Falling back to Whisper API for %s", video.video_id)
     import tempfile
     from pydub import AudioSegment
+    import yt_dlp
     from yt_dlp import YoutubeDL
     from openai import OpenAI
 
@@ -165,6 +188,7 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
             'outtmpl': f'{tmpdir}/%(id)s.%(ext)s',
             'quiet': True,
         }
+        add_ytdlp_cookie_options(ydl_opts)
         try:
             with YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(video.url, download=True)
@@ -211,6 +235,16 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
                 status="complete",
                 error_message=None,
             )
+        except (yt_dlp.utils.DownloadError, yt_dlp.utils.ExtractorError) as e:
+            log_ytdlp_cookie_error("audio download", video.video_id, e)
+            return TranscriptResult(
+                video_id=video.video_id,
+                source="failed",
+                language=None,
+                text=FAILED_TRANSCRIPT_TEXT,
+                status="failed",
+                error_message=truncate_error(f"Captions failed: {previous_error}. Whisper yt-dlp failed: {e}")
+            )
         except Exception as e:
             logging.exception("Whisper fallback failed for %s", video.video_id)
             return TranscriptResult(
@@ -236,7 +270,7 @@ def fetch_ytdlp_captions(video: VideoForTranscript) -> TranscriptResult | None:
     import tempfile
     import json
     import re
-    import os
+    import yt_dlp
     from yt_dlp import YoutubeDL
 
     logging.info("Falling back to yt-dlp captions for %s", video.video_id)
@@ -251,6 +285,7 @@ def fetch_ytdlp_captions(video: VideoForTranscript) -> TranscriptResult | None:
             'quiet': True,
             'no_warnings': True,
         }
+        add_ytdlp_cookie_options(ydl_opts)
         try:
             with YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video.url])
@@ -277,19 +312,24 @@ def fetch_ytdlp_captions(video: VideoForTranscript) -> TranscriptResult | None:
                             status="complete",
                             error_message=None
                         )
+        except (yt_dlp.utils.DownloadError, yt_dlp.utils.ExtractorError) as e:
+            log_ytdlp_cookie_error("caption download", video.video_id, e)
         except Exception as e:
             logging.warning("yt-dlp captions failed for %s: %s", video.video_id, e)
     return None
 
 
 def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> TranscriptResult:
-    """Fetch transcript text for a video, falling back to yt-dlp, Whisper, and description."""
+    """Fetch transcript text for a video, falling back to yt-dlp and Whisper."""
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
+
+    caption_error: Exception | None = None
 
     # 1. Try youtube-transcript-api
     try:
         return fetch_youtube_caption(video.video_id, languages)
     except Exception as exc1:
+        caption_error = exc1
         logging.warning("youtube-transcript-api failed for %s: %s", video.video_id, exc1)
 
     # 2. Try yt-dlp captions
@@ -298,20 +338,20 @@ def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> T
         return ytdlp_result
 
     # 3. Try Whisper
-    whisper_result = fetch_whisper_fallback(video, Exception("Captions APIs failed"))
+    whisper_result = fetch_whisper_fallback(video, caption_error or Exception("Captions APIs failed"))
     if whisper_result.status == "complete":
         return whisper_result
 
-    # 4. Ultimate Fallback: Video Description
-    logging.info("Falling back to video description for %s", video.video_id)
-    text = f"Video Title: {video.title}\n\nVideo Description:\n{video.description or 'No description available.'}"
+    # 4. Ultimate Fallback: record failure rather than analyzing metadata as transcript text.
+    logging.info("No transcript source succeeded for %s", video.video_id)
+    failure_reason = whisper_result.error_message or "Whisper fallback failed without a detailed error."
     return TranscriptResult(
         video_id=video.video_id,
-        source="video_description",
-        language="en",
-        text=text,
-        status="complete",
-        error_message="Used description as fallback because captions and Whisper failed."
+        source="failed",
+        language=None,
+        text=FAILED_TRANSCRIPT_TEXT,
+        status="failed",
+        error_message=truncate_error(f"Caption retrieval failed and Whisper failed. {failure_reason}"),
     )
 
 

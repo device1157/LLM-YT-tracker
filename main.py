@@ -246,6 +246,7 @@ def handle_analyse(
         f"status={result['status']} "
         f"videos={result['videos_succeeded']}/{result['videos_processed']} "
         f"retryable={result['videos_retryable']} "
+        f"failed={result['videos_failed']} "
         f"skipped={result['videos_skipped']}"
     )
     return 0
