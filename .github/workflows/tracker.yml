@@ -2,7 +2,7 @@ name: LLM YouTube Tracker Bot
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Changed to 6 hours to avoid API rate limits
+    - cron: '0 */1 * * *'
   workflow_dispatch:
 
 jobs:
