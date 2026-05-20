@@ -2,14 +2,14 @@ name: LLM YouTube Tracker Bot
 
 on:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 */6 * * *' # Changed to 6 hours to avoid API rate limits
   workflow_dispatch:
 
 jobs:
   update-dashboard:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Crucial: Allows the bot to commit data back to your repo
+      contents: write 
 
     steps:
       - name: Checkout repository
@@ -31,26 +31,40 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tracker pipeline
+      - name: 1. Init Database
+        run: python main.py init-db
+
+      - name: 2. Ingest Channels
+        continue-on-error: true
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python main.py ingest
+
+      - name: 3. Extract Transcripts
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python main.py transcript
+
+      - name: 4. AI Analysis
+        continue-on-error: true
+        env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          python main.py init-db
-          python main.py ingest
-          python main.py transcript
-          python main.py analyse
-          python main.py export-dashboard
+        run: python main.py analyse
+
+      - name: 5. Export Dashboard
+        run: python main.py export-dashboard
 
       - name: Commit and push updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add -f tracker.db
-          git add docs/data/latest.json
-
+          
+          # Use || true so git doesn't crash if the files don't exist yet
+          git add -f tracker.db || true
+          git add docs/data/latest.json || true
+          
           if git diff --staged --quiet; then
             echo "No new data to commit."
           else
