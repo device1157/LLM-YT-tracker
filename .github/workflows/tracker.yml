@@ -31,18 +31,31 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # 1. NEW STEP: Securely write the cookies secret to a temporary file
+      - name: Create YouTube Cookies File
+        env:
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+        run: |
+          echo "$YOUTUBE_COOKIES" > cookies.txt
+
       - name: Run Tracker Pipeline
         env:
           # Pulls your secure API keys from GitHub Secrets
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          
+          # 2. NEW ENV VAR: Tells your python code/yt-dlp where the generated cookies file lives
+          YOUTUBE_COOKIES_FILE: cookies.txt
         run: |
           python main.py init-db
           python main.py ingest --max-videos 10
           python main.py transcript --limit 20
           python main.py analyse --limit 20
           python main.py export-dashboard --output docs/data/latest.json
+          
+          # 3. Clean up the cookies file (optional, but good security practice)
+          rm cookies.txt
 
       - name: Commit and Push Updates
         run: |
