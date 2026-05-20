@@ -2,7 +2,7 @@ name: LLM YouTube Tracker Bot
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Runs automatically every 6 hours
+    - cron: '0 */1 * * *' # Runs automatically every 6 hours
   workflow_dispatch: # Adds a "Run workflow" button so you can trigger it live during your interview!
 
 jobs:
