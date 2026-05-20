@@ -5,7 +5,9 @@ from __future__ import annotations
 import json
 import logging
 import os
+import random
 import re
+import time
 from contextlib import closing
 from dataclasses import dataclass
 from datetime import timezone, datetime
@@ -171,6 +173,21 @@ def build_youtube_service(api_key: str) -> Any:
     return build("youtube", "v3", developerKey=api_key, cache_discovery=False)
 
 
+def execute_with_retry(request: Any, max_attempts: int = 5) -> Any:
+    """Execute a YouTube API request with exponential backoff for quota/burst errors."""
+    for attempt in range(max_attempts):
+        try:
+            return request.execute()
+        except Exception as exc:
+            if "429" in str(exc) or "50" in str(exc):
+                if attempt < max_attempts - 1:
+                    sleep_time = (2 ** attempt) + random.uniform(0, 1)
+                    logging.warning(f"YouTube API 429/50x hit. Retrying in {sleep_time:.2f}s...")
+                    time.sleep(sleep_time)
+                    continue
+            raise exc
+
+
 def fetch_with_youtube_api(
     channel: ChannelConfig,
     youtube: Any,
@@ -178,10 +195,8 @@ def fetch_with_youtube_api(
 ) -> tuple[ChannelRecord, list[VideoRecord]]:
     """Fetch channel and latest videos through YouTube Data API v3."""
     logging.info("Fetching channel %s via YouTube Data API", channel.channel_id)
-    channel_response = (
-        youtube.channels()
-        .list(part="snippet,contentDetails,statistics", id=channel.channel_id)
-        .execute()
+    channel_response = execute_with_retry(
+        youtube.channels().list(part="snippet,contentDetails,statistics", id=channel.channel_id)
     )
     channel_items = channel_response.get("items", [])
     if not channel_items:
@@ -208,14 +223,12 @@ def fetch_with_youtube_api(
     if not channel_record.uploads_playlist_id:
         raise RuntimeError(f"YouTube API returned no uploads playlist for {channel.channel_id}")
 
-    playlist_response = (
-        youtube.playlistItems()
-        .list(
+    playlist_response = execute_with_retry(
+        youtube.playlistItems().list(
             part="snippet",
             playlistId=channel_record.uploads_playlist_id,
             maxResults=min(max_videos, 50),
         )
-        .execute()
     )
     ids = [
         item.get("snippet", {}).get("resourceId", {}).get("videoId")
@@ -226,10 +239,8 @@ def fetch_with_youtube_api(
     if not ids:
         return channel_record, []
 
-    videos_response = (
-        youtube.videos()
-        .list(part="snippet,contentDetails,statistics", id=",".join(ids))
-        .execute()
+    videos_response = execute_with_retry(
+        youtube.videos().list(part="snippet,contentDetails,statistics", id=",".join(ids))
     )
 
     videos: list[VideoRecord] = []
@@ -572,6 +583,7 @@ def ingest_channels(
                 message = f"{channel.channel_id}: {exc}"
                 errors.append(message)
                 logging.exception("Failed to ingest channel %s", channel.channel_id)
+            time.sleep(2)
 
     status = "success" if failed == 0 else "partial" if succeeded else "failed"
     finished_at = utc_now()

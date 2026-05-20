@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import logging
 import os
+import random
+import time
 from contextlib import closing
 from dataclasses import dataclass
 from datetime import timezone, datetime
@@ -276,21 +278,36 @@ def analyze_with_openai(
     """Run OpenAI structured analysis and return a validated Pydantic object."""
     logging.info("Calling OpenAI structured analysis for video %s with model %s", item.video_id, model)
     client = OpenAI(timeout=timeout_seconds)
-    completion = client.beta.chat.completions.parse(
-        model=model,
-        temperature=0,
-        response_format=VideoAnalysis,
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": build_user_payload(item)},
-        ],
-    )
-    parsed = completion.choices[0].message.parsed
-    if parsed is None:
-        logging.error("OpenAI returned no parsed analysis for %s", item.video_id)
-        raise RuntimeError("OpenAI returned no parsed analysis")
-    logging.info("OpenAI analysis parsed successfully for video %s", item.video_id)
-    return parsed
+    for attempt in range(5):
+        try:
+            completion = client.beta.chat.completions.parse(
+                model=model,
+                temperature=0,
+                response_format=VideoAnalysis,
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": build_user_payload(item)},
+                ],
+            )
+            parsed = completion.choices[0].message.parsed
+            if parsed is None:
+                logging.error("OpenAI returned no parsed analysis for %s", item.video_id)
+                raise RuntimeError("OpenAI returned no parsed analysis")
+            logging.info("OpenAI analysis parsed successfully for video %s", item.video_id)
+            return parsed
+        except Exception as exc:
+            error_text = str(exc)
+            if (
+                ("429" in error_text or "RateLimit" in error_text or "Too Many Requests" in error_text)
+                and attempt < 4
+            ):
+                sleep_time = (2 ** attempt) + random.uniform(0, 1)
+                logging.warning(
+                    f"Rate limit hit. Retrying in {sleep_time:.2f}s (Attempt {attempt + 1}/5)"
+                )
+                time.sleep(sleep_time)
+                continue
+            raise exc
 
 
 def analyze_with_gemini(
@@ -316,18 +333,38 @@ def analyze_with_gemini(
         system_instruction=prompt,
         temperature=0,
         response_mime_type="application/json",
-        response_schema=VideoAnalysis,
+        response_json_schema=VideoAnalysis.model_json_schema(),
     )
 
-    client = genai.Client(
+    response: Any | None = None
+    with genai.Client(
         api_key=api_key,
         http_options=types.HttpOptions(timeout=timeout_ms),
-    )
-    response = client.models.generate_content(
-        model=model,
-        contents=build_user_payload(item),
-        config=config,
-    )
+    ) as client:
+        for attempt in range(5):
+            try:
+                response = client.models.generate_content(
+                    model=model,
+                    contents=build_user_payload(item),
+                    config=config,
+                )
+                break
+            except Exception as exc:
+                error_text = str(exc)
+                if (
+                    ("429" in error_text or "RateLimit" in error_text or "Too Many Requests" in error_text)
+                    and attempt < 4
+                ):
+                    sleep_time = (2 ** attempt) + random.uniform(0, 1)
+                    logging.warning(
+                        f"Rate limit hit. Retrying in {sleep_time:.2f}s (Attempt {attempt + 1}/5)"
+                    )
+                    time.sleep(sleep_time)
+                    continue
+                raise exc
+
+    if response is None:
+        raise RuntimeError("Gemini returned no response")
 
     parsed_payload = getattr(response, "parsed", None)
     if isinstance(parsed_payload, VideoAnalysis):
@@ -561,6 +598,7 @@ def analyze_pending_transcripts(
             elif result.status == "transcript_failed":
                 skipped += 1
             logging.info("Finished analysis handling for %s", transcript.video_id)
+            time.sleep(3)
 
     status = "success" if retryable == 0 and failed == 0 else "partial" if succeeded or skipped else "failed"
     finished_at = utc_now()

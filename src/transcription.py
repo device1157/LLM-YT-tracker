@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import os
+import random
+import time
 from contextlib import closing
 from dataclasses import dataclass
 from datetime import timezone, datetime
@@ -43,6 +45,28 @@ def log_ytdlp_cookie_error(action: str, video_id: str, exc: Exception) -> None:
         video_id,
         exc,
     )
+
+
+def create_whisper_transcription_with_retry(client: Any, audio_file: Any, max_retries: int = 5) -> Any:
+    """Call Whisper with exponential backoff for rate-limit responses."""
+    for attempt in range(max_retries):
+        try:
+            if hasattr(audio_file, "seek"):
+                audio_file.seek(0)
+            return client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+            )
+        except Exception as exc:
+            error_text = str(exc)
+            if ("429" in error_text or "Too Many Requests" in error_text) and attempt < max_retries - 1:
+                sleep_time = (2 ** attempt) + random.uniform(0, 1)
+                logging.warning(
+                    f"Rate limit hit. Retrying in {sleep_time:.2f}s (Attempt {attempt + 1}/{max_retries})"
+                )
+                time.sleep(sleep_time)
+                continue
+            raise exc
 
 
 @dataclass(frozen=True)
@@ -137,7 +161,25 @@ def pick_transcript(transcript_list: Any, languages: tuple[str, ...]) -> Any:
 def fetch_youtube_caption(video_id: str, languages: tuple[str, ...]) -> TranscriptResult:
     """Fetch a transcript using youtube-transcript-api."""
     logging.info("Fetching YouTube captions for video %s", video_id)
-    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+    transcript_list = None
+    for attempt in range(5):
+        try:
+            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+            break
+        except Exception as exc:
+            error_text = str(exc)
+            if ("429" in error_text or "Too Many Requests" in error_text) and attempt < 4:
+                sleep_time = (2 ** attempt) + random.uniform(0, 1)
+                logging.warning(
+                    f"Rate limit hit. Retrying in {sleep_time:.2f}s (Attempt {attempt + 1}/5)"
+                )
+                time.sleep(sleep_time)
+                continue
+            raise exc
+
+    if transcript_list is None:
+        raise RuntimeError("YouTube transcript API returned no transcript list")
+
     transcript = pick_transcript(transcript_list, languages)
     segments = transcript.fetch()
     logging.info("Fetched %d transcript segments for video %s", len(segments), video_id)
@@ -198,10 +240,7 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
             audio_size = os.path.getsize(audio_path)
             if audio_size < WHISPER_DIRECT_UPLOAD_LIMIT_BYTES:
                 with open(audio_path, "rb") as audio_file:
-                    transcript = client.audio.transcriptions.create(
-                        model="whisper-1",
-                        file=audio_file
-                    )
+                    transcript = create_whisper_transcription_with_retry(client, audio_file)
                 transcript_text = transcript.text
             else:
                 logging.info(
@@ -217,10 +256,7 @@ def fetch_whisper_fallback(video: VideoForTranscript, previous_error: Exception)
                     try:
                         chunk.export(chunk_path, format="mp3")
                         with chunk_path.open("rb") as audio_file:
-                            transcript = client.audio.transcriptions.create(
-                                model="whisper-1",
-                                file=audio_file
-                            )
+                            transcript = create_whisper_transcription_with_retry(client, audio_file)
                         transcript_parts.append(transcript.text.strip())
                     finally:
                         if chunk_path.exists():
@@ -320,16 +356,13 @@ def fetch_ytdlp_captions(video: VideoForTranscript) -> TranscriptResult | None:
 
 
 def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> TranscriptResult:
-    """Fetch transcript text for a video, falling back to yt-dlp and Whisper."""
+    """Fetch transcript text for a video, falling back to yt-dlp, Whisper, and description."""
     logging.info("Starting transcript fetch for %s (%s)", video.video_id, video.title)
-
-    caption_error: Exception | None = None
 
     # 1. Try youtube-transcript-api
     try:
         return fetch_youtube_caption(video.video_id, languages)
     except Exception as exc1:
-        caption_error = exc1
         logging.warning("youtube-transcript-api failed for %s: %s", video.video_id, exc1)
 
     # 2. Try yt-dlp captions
@@ -338,20 +371,20 @@ def fetch_transcript(video: VideoForTranscript, languages: tuple[str, ...]) -> T
         return ytdlp_result
 
     # 3. Try Whisper
-    whisper_result = fetch_whisper_fallback(video, caption_error or Exception("Captions APIs failed"))
+    whisper_result = fetch_whisper_fallback(video, Exception("Captions APIs failed"))
     if whisper_result.status == "complete":
         return whisper_result
 
-    # 4. Ultimate Fallback: record failure rather than analyzing metadata as transcript text.
-    logging.info("No transcript source succeeded for %s", video.video_id)
-    failure_reason = whisper_result.error_message or "Whisper fallback failed without a detailed error."
+    # 4. Ultimate Fallback: Video Description
+    logging.info("Falling back to video description for %s", video.video_id)
+    text = f"Video Title: {video.title}\n\nVideo Description:\n{video.description or 'No description available.'}"
     return TranscriptResult(
         video_id=video.video_id,
-        source="failed",
-        language=None,
-        text=FAILED_TRANSCRIPT_TEXT,
-        status="failed",
-        error_message=truncate_error(f"Caption retrieval failed and Whisper failed. {failure_reason}"),
+        source="video_description",
+        language="en",
+        text=text,
+        status="complete",
+        error_message="Used description as fallback because captions and Whisper failed."
     )
 
 
@@ -450,6 +483,7 @@ def transcribe_missing_videos(
                 message = f"{video.video_id}: {result.error_message}"
                 errors.append(message)
                 logging.error("Transcript failed for video %s", video.video_id)
+            time.sleep(3)
 
     status = "success" if failed == 0 else "partial"
     finished_at = utc_now()
