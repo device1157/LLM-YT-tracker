@@ -2,7 +2,7 @@
 
 An automated tracker for LLM-focused YouTube channels. It ingests recent videos, fetches transcripts where available, analyzes transcript text into structured themes, stores everything in SQLite, and publishes both a static dashboard and a FastAPI backend.
 
-## What This Ships
+## What This this
 
 - A Python CLI pipeline for `init-db`, `ingest`, `transcript`, `analyse`, `export-dashboard`, and `serve-api`.
 - A SQLite database at `tracker.db` with channels, videos, transcripts, analysis rows, and job run history.
