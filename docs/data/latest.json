@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-05-29T12:28:19.881Z",
+  "generated_at": "2026-05-29T22:55:30.519Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 20,
+      "total": 21,
       "by_transcript_status": {
-        "complete": 20
+        "complete": 21
       },
       "by_analysis_status": {
-        "complete": 20
+        "complete": 21
       },
-      "ready": 20,
+      "ready": 21,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 20,
+      "total": 21,
       "by_status": {
-        "complete": 20
+        "complete": 21
       }
     },
     "analysis": {
-      "total": 20,
+      "total": 21,
       "by_status": {
-        "complete": 20
+        "complete": 21
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-05-29T22:55:20.267Z",
+          "finished_at": "2026-05-29T22:55:29.571Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-05-29T22:55:14.248Z",
+          "finished_at": "2026-05-29T22:55:19.419Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-05-29T22:55:08.426Z",
+          "finished_at": "2026-05-29T22:55:13.413Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-05-29T12:28:12.302Z",
-          "finished_at": "2026-05-29T12:28:17.239Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-05-28T23:02:14.479Z",
-          "finished_at": "2026-05-28T23:02:14.482Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-05-28T23:02:13.578Z",
-          "finished_at": "2026-05-28T23:02:13.581Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 426000,
-      "video_count": 149,
-      "last_ingested_at": "2026-05-29T12:28:12.613Z",
-      "videos_total": 10,
-      "transcripts_complete": 10,
+      "video_count": 150,
+      "last_ingested_at": "2026-05-29T22:55:08.758Z",
+      "videos_total": 11,
+      "transcripts_complete": 11,
       "transcripts_failed": 0,
-      "analysis_complete": 10,
+      "analysis_complete": 11,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-05-20T16:50:34Z"
+      "latest_published_at": "2026-05-29T15:07:35Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1450000,
       "video_count": 17,
-      "last_ingested_at": "2026-05-29T12:28:12.613Z",
+      "last_ingested_at": "2026-05-29T22:55:08.758Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,54 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "aJvP3nXWkwM",
+      "date": "2026-05-29",
+      "published_at": "2026-05-29T15:07:35Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "New Claude Opus 4.8: 15 Things You May’ve Missed",
+      "url": "https://www.youtube.com/watch?v=aJvP3nXWkwM",
+      "thumbnail_url": "https://i.ytimg.com/vi/aJvP3nXWkwM/maxresdefault.jpg",
+      "speakers": [
+        "AI Explained"
+      ],
+      "topics": [
+        "Claude Opus 4.8",
+        "AI model performance",
+        "AI model benchmarks",
+        "system card analysis",
+        "model honesty",
+        "uncertainty flagging",
+        "model welfare",
+        "AI safety",
+        "AI misalignment",
+        "cyber security in AI",
+        "code flagging",
+        "Fast Mode",
+        "Dynamic Workflows",
+        "business applications of AI"
+      ],
+      "themes": [
+        "Model Release",
+        "Benchmark",
+        "Safety",
+        "Business",
+        "Tooling",
+        "Opinion"
+      ],
+      "summary": "This video analyzes the release of Claude Opus 4.8, highlighting 15 key aspects from its 244-page system card, private testing, and interviews. It covers the model's performance, including benchmarks, and new features like Fast Mode and Dynamic Workflows. The analysis also delves into critical areas such as model honesty, uncertainty flagging, model welfare, cyber comparability, and misalignment concerns, providing insights into what the release signifies for the AI landscape.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.95,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "o_av1b9rs2g",
       "date": "2026-05-20",
