@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-06-10T15:55:00.514Z",
+  "generated_at": "2026-06-10T20:41:42.666Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 21,
+      "total": 22,
       "by_transcript_status": {
-        "complete": 21
+        "complete": 22
       },
       "by_analysis_status": {
-        "complete": 21
+        "complete": 22
       },
-      "ready": 21,
+      "ready": 22,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 21,
+      "total": 22,
       "by_status": {
-        "complete": 21
+        "complete": 22
       }
     },
     "analysis": {
-      "total": 21,
+      "total": 22,
       "by_status": {
-        "complete": 21
+        "complete": 22
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-06-10T20:41:32.033Z",
+          "finished_at": "2026-06-10T20:41:41.689Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-06-10T20:41:06.565Z",
+          "finished_at": "2026-06-10T20:41:31.123Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-06-10T20:41:00.585Z",
+          "finished_at": "2026-06-10T20:41:05.661Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-06-10T15:54:53.016Z",
-          "finished_at": "2026-06-10T15:54:57.926Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-06-10T10:15:46.845Z",
-          "finished_at": "2026-06-10T10:15:46.848Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-06-10T10:15:45.994Z",
-          "finished_at": "2026-06-10T10:15:45.997Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -90,15 +90,15 @@
       "url": "https://www.youtube.com/channel/UCNJ1Ymd5yFuUPtn21xtRbbw/videos",
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
-      "subscriber_count": 428000,
-      "video_count": 150,
-      "last_ingested_at": "2026-06-10T15:54:53.313Z",
-      "videos_total": 11,
-      "transcripts_complete": 11,
+      "subscriber_count": 429000,
+      "video_count": 151,
+      "last_ingested_at": "2026-06-10T20:41:00.960Z",
+      "videos_total": 12,
+      "transcripts_complete": 12,
       "transcripts_failed": 0,
-      "analysis_complete": 11,
+      "analysis_complete": 12,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-05-29T15:07:35Z"
+      "latest_published_at": "2026-06-10T18:43:12Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1480000,
       "video_count": 17,
-      "last_ingested_at": "2026-06-10T15:54:53.313Z",
+      "last_ingested_at": "2026-06-10T20:41:00.960Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,50 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "haK1KoQWm18",
+      "date": "2026-06-10",
+      "published_at": "2026-06-10T18:43:12Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "Claude Fable 5 - Full 319 page Breakdown",
+      "url": "https://www.youtube.com/watch?v=haK1KoQWm18",
+      "thumbnail_url": "https://i.ytimg.com/vi/haK1KoQWm18/maxresdefault.jpg",
+      "speakers": [
+        "AI Explained"
+      ],
+      "topics": [
+        "Claude Fable 5",
+        "Anthropic system card analysis",
+        "LLM benchmarks",
+        "ML acceleration",
+        "bio-capable AI",
+        "creative writing with LLMs",
+        "LLM bug-checking",
+        "OpenAI competitive strategy",
+        "Chain of Thought reasoning",
+        "transformer architecture",
+        "AI safety concerns"
+      ],
+      "themes": [
+        "Model Release",
+        "Benchmark",
+        "Opinion",
+        "Research",
+        "Business"
+      ],
+      "summary": "This video provides a comprehensive breakdown of Anthropic's Claude Fable 5, analyzing its 319-page system card to reveal over 20 key insights and benchmarks. It covers Fable 5's upgrade, ML acceleration, bio-capability, and creative writing performance, alongside discussions on necessary bug-checks. The analysis also highlights two 'worrying trends' within Claude's reasoning, examines OpenAI's competitive response, and includes a warning from a transformer inventor. Various benchmarks like AutomationBench, Vending Bench, and GDPVal are referenced.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 1.0,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "aJvP3nXWkwM",
       "date": "2026-05-29",
