@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-06-14T14:20:15.620Z",
+  "generated_at": "2026-06-14T19:47:41.868Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 22,
+      "total": 23,
       "by_transcript_status": {
-        "complete": 22
+        "complete": 23
       },
       "by_analysis_status": {
-        "complete": 22
+        "complete": 23
       },
-      "ready": 22,
+      "ready": 23,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 22,
+      "total": 23,
       "by_status": {
-        "complete": 22
+        "complete": 23
       }
     },
     "analysis": {
-      "total": 22,
+      "total": 23,
       "by_status": {
-        "complete": 22
+        "complete": 23
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-06-14T19:47:32.424Z",
+          "finished_at": "2026-06-14T19:47:40.889Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-06-14T19:47:25.989Z",
+          "finished_at": "2026-06-14T19:47:31.533Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-06-14T19:47:19.918Z",
+          "finished_at": "2026-06-14T19:47:25.116Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-06-14T14:20:07.878Z",
-          "finished_at": "2026-06-14T14:20:12.930Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-06-14T09:49:17.784Z",
-          "finished_at": "2026-06-14T09:49:17.787Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-06-14T09:49:16.910Z",
-          "finished_at": "2026-06-14T09:49:16.913Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 430000,
-      "video_count": 151,
-      "last_ingested_at": "2026-06-14T14:20:08.222Z",
-      "videos_total": 12,
-      "transcripts_complete": 12,
+      "video_count": 152,
+      "last_ingested_at": "2026-06-14T19:47:20.543Z",
+      "videos_total": 13,
+      "transcripts_complete": 13,
       "transcripts_failed": 0,
-      "analysis_complete": 12,
+      "analysis_complete": 13,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-06-10T18:43:12Z"
+      "latest_published_at": "2026-06-14T14:52:27Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1490000,
       "video_count": 17,
-      "last_ingested_at": "2026-06-14T14:20:08.222Z",
+      "last_ingested_at": "2026-06-14T19:47:20.543Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,43 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "Qj71N0tBzRo",
+      "date": "2026-06-14",
+      "published_at": "2026-06-14T14:52:27Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "Claude Fable Blocked - 11 Quiet Details on What’s Next",
+      "url": "https://www.youtube.com/watch?v=Qj71N0tBzRo",
+      "thumbnail_url": "https://i.ytimg.com/vi/Qj71N0tBzRo/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "Claude Fable 5",
+        "AI export controls",
+        "AI regulation",
+        "prompt injection robustness",
+        "corporate lobbying in AI",
+        "Anthropic",
+        "OpenAI",
+        "government influence on AI development"
+      ],
+      "themes": [
+        "Policy",
+        "Business",
+        "Opinion"
+      ],
+      "summary": "The video analyzes the blocking of Anthropic's Claude Fable 5 model, detailing 11 under-reported aspects of the event. It explores the origins of the ban, including pressure from Anthropic investors and tech leaders, and government involvement. The discussion covers potential motives behind the ban, the model's actual capabilities, and over-extrapolations about its future impact on AI use. Key points include prompt injection robustness, Anthropic's acknowledgment of potential difficulties, and the role of lobbying by companies like OpenAI in shaping AI policy.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "haK1KoQWm18",
       "date": "2026-06-10",
