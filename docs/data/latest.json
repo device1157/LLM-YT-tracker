@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-07-02T14:20:37.216Z",
+  "generated_at": "2026-07-02T19:43:03.907Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 23,
+      "total": 24,
       "by_transcript_status": {
-        "complete": 23
+        "complete": 24
       },
       "by_analysis_status": {
-        "complete": 23
+        "complete": 24
       },
-      "ready": 23,
+      "ready": 24,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 23,
+      "total": 24,
       "by_status": {
-        "complete": 23
+        "complete": 24
       }
     },
     "analysis": {
-      "total": 23,
+      "total": 24,
       "by_status": {
-        "complete": 23
+        "complete": 24
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-07-02T19:42:53.925Z",
+          "finished_at": "2026-07-02T19:43:02.830Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-07-02T19:42:47.024Z",
+          "finished_at": "2026-07-02T19:42:52.963Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-07-02T19:42:41.178Z",
+          "finished_at": "2026-07-02T19:42:46.080Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-07-02T14:20:29.290Z",
-          "finished_at": "2026-07-02T14:20:34.644Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-07-02T09:26:02.003Z",
-          "finished_at": "2026-07-02T09:26:02.006Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-07-02T09:26:01.063Z",
-          "finished_at": "2026-07-02T09:26:01.065Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 433000,
-      "video_count": 152,
-      "last_ingested_at": "2026-07-02T14:20:29.805Z",
-      "videos_total": 13,
-      "transcripts_complete": 13,
+      "video_count": 153,
+      "last_ingested_at": "2026-07-02T19:42:41.398Z",
+      "videos_total": 14,
+      "transcripts_complete": 14,
       "transcripts_failed": 0,
-      "analysis_complete": 13,
+      "analysis_complete": 14,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-06-14T14:52:27Z"
+      "latest_published_at": "2026-07-02T16:27:26Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -106,9 +106,9 @@
       "url": "https://www.youtube.com/channel/UCXUPKJO5MZQN11PqgIvyuvQ/videos",
       "custom_url": "@andrejkarpathy",
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
-      "subscriber_count": 1520000,
+      "subscriber_count": 1530000,
       "video_count": 17,
-      "last_ingested_at": "2026-07-02T14:20:29.805Z",
+      "last_ingested_at": "2026-07-02T19:42:41.398Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,46 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "y24lF1q4SFY",
+      "date": "2026-07-02",
+      "published_at": "2026-07-02T16:27:26Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "Fable 5 vs GPT 5.6 Sol: The Early Results",
+      "url": "https://www.youtube.com/watch?v=y24lF1q4SFY",
+      "thumbnail_url": "https://i.ytimg.com/vi/y24lF1q4SFY/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "Fable 5 model",
+        "GPT 5.6 Sol model",
+        "Claude Sonnet 5 model",
+        "US government equity in AI companies",
+        "Chinese AI development",
+        "large language model learning research",
+        "model safety and misalignment",
+        "GLM 5.2 model"
+      ],
+      "themes": [
+        "Model Release",
+        "Benchmark",
+        "Policy",
+        "Business",
+        "Research",
+        "Safety"
+      ],
+      "summary": "This video discusses early comparisons between Fable 5 and GPT 5.6 Sol, along with updates on Claude Sonnet 5. It also covers a reported 5% equity seizure by the US government, the 'Chinese Angle' in AI development, and a new paper on large model learning. The video touches on the release timelines for Fable and Sol, potential misalignment issues with Sol, and introduces GLM 5.2.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.8,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "Qj71N0tBzRo",
       "date": "2026-06-14",
