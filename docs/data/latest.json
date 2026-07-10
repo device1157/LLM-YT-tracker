@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-07-10T09:48:32.362Z",
+  "generated_at": "2026-07-10T14:43:54.741Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 24,
+      "total": 25,
       "by_transcript_status": {
-        "complete": 24
+        "complete": 25
       },
       "by_analysis_status": {
-        "complete": 24
+        "complete": 25
       },
-      "ready": 24,
+      "ready": 25,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 24,
+      "total": 25,
       "by_status": {
-        "complete": 24
+        "complete": 25
       }
     },
     "analysis": {
-      "total": 24,
+      "total": 25,
       "by_status": {
-        "complete": 24
+        "complete": 25
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-07-10T14:43:43.395Z",
+          "finished_at": "2026-07-10T14:43:53.759Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-07-10T14:43:37.052Z",
+          "finished_at": "2026-07-10T14:43:42.505Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-07-10T14:43:30.672Z",
+          "finished_at": "2026-07-10T14:43:36.030Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-07-10T09:48:24.176Z",
-          "finished_at": "2026-07-10T09:48:29.409Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-07-10T03:58:07.752Z",
-          "finished_at": "2026-07-10T03:58:07.756Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-07-10T03:58:06.935Z",
-          "finished_at": "2026-07-10T03:58:06.937Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 434000,
-      "video_count": 153,
-      "last_ingested_at": "2026-07-10T09:48:24.683Z",
-      "videos_total": 14,
-      "transcripts_complete": 14,
+      "video_count": 154,
+      "last_ingested_at": "2026-07-10T14:43:31.330Z",
+      "videos_total": 15,
+      "transcripts_complete": 15,
       "transcripts_failed": 0,
-      "analysis_complete": 14,
+      "analysis_complete": 15,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-07-02T16:27:26Z"
+      "latest_published_at": "2026-07-10T12:40:15Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1560000,
       "video_count": 17,
-      "last_ingested_at": "2026-07-10T09:48:24.683Z",
+      "last_ingested_at": "2026-07-10T14:43:31.330Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,50 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "mWlCituW7wo",
+      "date": "2026-07-10",
+      "published_at": "2026-07-10T12:40:15Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "A Model Explosion: GPT 5.6 Sol, Grok 4.5 and Meta Muse Rewrite the Rules",
+      "url": "https://www.youtube.com/watch?v=mWlCituW7wo",
+      "thumbnail_url": "https://i.ytimg.com/vi/mWlCituW7wo/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "GPT 5.6 Sol",
+        "Grok 4.5",
+        "Meta Muse Spark 1.1",
+        "LLM benchmarks",
+        "SimpleBench",
+        "SWE-Marathon",
+        "ARC-AGI 3",
+        "Automation Bench",
+        "VibeCode Bench",
+        "Post-Train Claim",
+        "AI self-improvement",
+        "AI in gaming",
+        "Competitive coding with AI"
+      ],
+      "themes": [
+        "Model Release",
+        "Benchmark",
+        "Research",
+        "Business",
+        "Opinion"
+      ],
+      "summary": "This video discusses a significant week in AI, highlighting the release and competitive landscape of new large language models. It covers GPT 5.6 Sol, Grok 4.5, and Meta Muse Spark 1.1, comparing their capabilities and value propositions, potentially surpassing models like Claude Fable. The video also delves into new benchmarks such as SimpleBench, SWE-Marathon, ARC-AGI 3, Automation Bench, VibeCode Bench, and Post-Train Claim, alongside discussions on self-improvement in models and the emerging frontier of AI in gaming and competitive coding.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "y24lF1q4SFY",
       "date": "2026-07-02",
