@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-27T14:51:54.531Z",
+  "generated_at": "2026-07-27T19:45:20.147Z",
   "stats": {
     "channels": {
       "total": 2
@@ -33,6 +33,36 @@
         {
           "job_name": "analyse",
           "status": "success",
+          "started_at": "2026-07-27T19:45:19.498Z",
+          "finished_at": "2026-07-27T19:45:19.501Z",
+          "items_processed": 0,
+          "items_succeeded": 0,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-07-27T19:45:18.881Z",
+          "finished_at": "2026-07-27T19:45:18.883Z",
+          "items_processed": 0,
+          "items_succeeded": 0,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-07-27T19:45:13.329Z",
+          "finished_at": "2026-07-27T19:45:18.249Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "analyse",
+          "status": "success",
           "started_at": "2026-07-27T14:51:53.905Z",
           "finished_at": "2026-07-27T14:51:53.907Z",
           "items_processed": 0,
@@ -45,36 +75,6 @@
           "status": "success",
           "started_at": "2026-07-27T14:51:53.281Z",
           "finished_at": "2026-07-27T14:51:53.283Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-07-27T14:51:47.502Z",
-          "finished_at": "2026-07-27T14:51:52.638Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-07-27T10:03:27.541Z",
-          "finished_at": "2026-07-27T10:03:27.544Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-07-27T10:03:26.696Z",
-          "finished_at": "2026-07-27T10:03:26.699Z",
           "items_processed": 0,
           "items_succeeded": 0,
           "items_failed": 0,
@@ -92,7 +92,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 438000,
       "video_count": 155,
-      "last_ingested_at": "2026-07-27T14:51:47.827Z",
+      "last_ingested_at": "2026-07-27T19:45:13.599Z",
       "videos_total": 16,
       "transcripts_complete": 16,
       "transcripts_failed": 0,
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1610000,
       "video_count": 17,
-      "last_ingested_at": "2026-07-27T14:51:47.827Z",
+      "last_ingested_at": "2026-07-27T19:45:13.599Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
