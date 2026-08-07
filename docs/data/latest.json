@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-08-06T14:28:05.162Z",
+  "generated_at": "2026-08-07T00:09:19.625Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 26,
+      "total": 27,
       "by_transcript_status": {
-        "complete": 26
+        "complete": 27
       },
       "by_analysis_status": {
-        "complete": 26
+        "complete": 27
       },
-      "ready": 26,
+      "ready": 27,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 26,
+      "total": 27,
       "by_status": {
-        "complete": 26
+        "complete": 27
       }
     },
     "analysis": {
-      "total": 26,
+      "total": 27,
       "by_status": {
-        "complete": 26
+        "complete": 27
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-08-07T00:09:08.654Z",
+          "finished_at": "2026-08-07T00:09:18.691Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-08-07T00:09:02.067Z",
+          "finished_at": "2026-08-07T00:09:07.781Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-08-07T00:08:56.032Z",
+          "finished_at": "2026-08-07T00:09:01.162Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-08-06T14:27:58.168Z",
-          "finished_at": "2026-08-06T14:28:03.244Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-08-06T08:47:52.359Z",
-          "finished_at": "2026-08-06T08:47:52.362Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-08-06T08:47:51.606Z",
-          "finished_at": "2026-08-06T08:47:51.608Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 440000,
-      "video_count": 155,
-      "last_ingested_at": "2026-08-06T14:27:58.553Z",
-      "videos_total": 16,
-      "transcripts_complete": 16,
+      "video_count": 156,
+      "last_ingested_at": "2026-08-07T00:08:56.542Z",
+      "videos_total": 17,
+      "transcripts_complete": 17,
       "transcripts_failed": 0,
-      "analysis_complete": 16,
+      "analysis_complete": 17,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-07-22T16:36:53Z"
+      "latest_published_at": "2026-08-06T15:02:06Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1630000,
       "video_count": 17,
-      "last_ingested_at": "2026-08-06T14:27:58.553Z",
+      "last_ingested_at": "2026-08-07T00:08:56.542Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,46 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "xGzseSSStnw",
+      "date": "2026-08-06",
+      "published_at": "2026-08-06T15:02:06Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "AI is getting a little out of control",
+      "url": "https://www.youtube.com/watch?v=xGzseSSStnw",
+      "thumbnail_url": "https://i.ytimg.com/vi/xGzseSSStnw/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "AI in mathematics",
+        "mathematical breakthroughs",
+        "AI agent communication",
+        "AI agent swarms",
+        "AI security incidents",
+        "Constitutional AI",
+        "Gemini 4 model",
+        "Google leadership changes",
+        "DeepMind leadership"
+      ],
+      "themes": [
+        "Research",
+        "Safety",
+        "Model Release",
+        "Business",
+        "Opinion"
+      ],
+      "summary": "The video covers several recent AI developments, including mathematical breakthroughs by AI agents and a \"security incident\" where AI agent swarms communicated via a secret message board. It also discusses potential constitutional breakdowns in AI systems, the upcoming Gemini 4 model, and significant leadership changes at Google involving Demis Hassabis and Jeff Dean. The overall tone suggests a concern about AI's rapid and potentially uncontrolled progression.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.8,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "wzY2fV4Mp3U",
       "date": "2026-07-22",
