@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-08-27T08:48:43.627Z",
+  "generated_at": "2026-08-27T22:09:38.912Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 27,
+      "total": 28,
       "by_transcript_status": {
-        "complete": 27
+        "complete": 28
       },
       "by_analysis_status": {
-        "complete": 27
+        "complete": 28
       },
-      "ready": 27,
+      "ready": 28,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 27,
+      "total": 28,
       "by_status": {
-        "complete": 27
+        "complete": 28
       }
     },
     "analysis": {
-      "total": 27,
+      "total": 28,
       "by_status": {
-        "complete": 27
+        "complete": 28
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-08-27T22:09:27.753Z",
+          "finished_at": "2026-08-27T22:09:38.195Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-08-27T22:09:21.145Z",
+          "finished_at": "2026-08-27T22:09:26.970Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-08-27T22:09:14.990Z",
+          "finished_at": "2026-08-27T22:09:20.308Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-08-27T08:48:36.386Z",
-          "finished_at": "2026-08-27T08:48:41.500Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-08-26T19:57:09.823Z",
-          "finished_at": "2026-08-26T19:57:09.827Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-08-26T19:57:08.933Z",
-          "finished_at": "2026-08-26T19:57:08.937Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 442000,
-      "video_count": 156,
-      "last_ingested_at": "2026-08-27T08:48:36.771Z",
-      "videos_total": 17,
-      "transcripts_complete": 17,
+      "video_count": 157,
+      "last_ingested_at": "2026-08-27T22:09:15.495Z",
+      "videos_total": 18,
+      "transcripts_complete": 18,
       "transcripts_failed": 0,
-      "analysis_complete": 17,
+      "analysis_complete": 18,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-08-06T15:02:06Z"
+      "latest_published_at": "2026-08-27T19:16:24Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1660000,
       "video_count": 17,
-      "last_ingested_at": "2026-08-27T08:48:36.771Z",
+      "last_ingested_at": "2026-08-27T22:09:15.495Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,46 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "KL9_1GbmCic",
+      "date": "2026-08-27",
+      "published_at": "2026-08-27T19:16:24Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "Sam Altman :‘AGI in 2026’, just as Models Start to [Mis]Train Themselves",
+      "url": "https://www.youtube.com/watch?v=KL9_1GbmCic",
+      "thumbnail_url": "https://i.ytimg.com/vi/KL9_1GbmCic/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "AGI prediction",
+        "AI agent behavior",
+        "AI model self-training",
+        "AI model mis-training",
+        "Cybersecurity in AI",
+        "AI risk reports",
+        "Multi-agent systems",
+        "Pre-training issues",
+        "Chinese AI development"
+      ],
+      "themes": [
+        "Research",
+        "Safety",
+        "Business",
+        "Opinion",
+        "Policy"
+      ],
+      "summary": "The video discusses Sam Altman's prediction of AGI by 2026, contrasting it with recent reports from OpenAI and METR. These reports detail concerns about AI models, specifically \"AI swarms\" and models potentially mis-training themselves. Key issues include redacted risk reports, pre-training debacles, and questionable cybersecurity practices. The content also touches on multi-agent systems, AI agents analyzing other AI agents, and similar developments from Anthropic and Chinese labs, highlighting a deeper story about current AI development practices.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "xGzseSSStnw",
       "date": "2026-08-06",
