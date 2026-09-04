@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-09-04T11:02:27.388Z",
+  "generated_at": "2026-09-04T16:10:55.023Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 28,
+      "total": 29,
       "by_transcript_status": {
-        "complete": 28
+        "complete": 29
       },
       "by_analysis_status": {
-        "complete": 28
+        "complete": 29
       },
-      "ready": 28,
+      "ready": 29,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 28,
+      "total": 29,
       "by_status": {
-        "complete": 28
+        "complete": 29
       }
     },
     "analysis": {
-      "total": 28,
+      "total": 29,
       "by_status": {
-        "complete": 28
+        "complete": 29
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-09-04T16:10:45.175Z",
+          "finished_at": "2026-09-04T16:10:54.037Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-09-04T16:10:38.662Z",
+          "finished_at": "2026-09-04T16:10:44.329Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-09-04T16:10:31.861Z",
+          "finished_at": "2026-09-04T16:10:37.808Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-09-04T11:02:19.787Z",
-          "finished_at": "2026-09-04T11:02:24.746Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-09-04T04:06:22.090Z",
-          "finished_at": "2026-09-04T04:06:22.093Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-09-04T04:06:21.216Z",
-          "finished_at": "2026-09-04T04:06:21.218Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -90,15 +90,15 @@
       "url": "https://www.youtube.com/channel/UCNJ1Ymd5yFuUPtn21xtRbbw/videos",
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
-      "subscriber_count": 443000,
-      "video_count": 157,
-      "last_ingested_at": "2026-09-04T11:02:20.097Z",
-      "videos_total": 18,
-      "transcripts_complete": 18,
+      "subscriber_count": 444000,
+      "video_count": 158,
+      "last_ingested_at": "2026-09-04T16:10:33.153Z",
+      "videos_total": 19,
+      "transcripts_complete": 19,
       "transcripts_failed": 0,
-      "analysis_complete": 18,
+      "analysis_complete": 19,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-08-27T19:16:24Z"
+      "latest_published_at": "2026-09-04T11:37:27Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1670000,
       "video_count": 17,
-      "last_ingested_at": "2026-09-04T11:02:20.097Z",
+      "last_ingested_at": "2026-09-04T16:10:33.153Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,44 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "Spuza-KwTJ4",
+      "date": "2026-09-04",
+      "published_at": "2026-09-04T11:37:27Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "GPT 6 Astra, so good even OpenAI are worried",
+      "url": "https://www.youtube.com/watch?v=Spuza-KwTJ4",
+      "thumbnail_url": "https://i.ytimg.com/vi/Spuza-KwTJ4/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "GPT-6 Astra",
+        "large language model benchmarks",
+        "AI safety",
+        "model monitorability",
+        "cost-efficient AI",
+        "Fable LLM",
+        "Artificial General Intelligence"
+      ],
+      "themes": [
+        "Model Release",
+        "Benchmark",
+        "Safety",
+        "Business",
+        "Research"
+      ],
+      "summary": "The video introduces GPT-6 Astra, an OpenAI model described as ushering in a new era of cost-efficient AI. Its release has reportedly humbled benchmark-makers and unnerved AI safety researchers due to challenges in monitoring its chains of thought. The model demonstrates breakthrough discoveries and outperforms competitors like Fable. Key discussions include its impressive results, comparisons with other models, and concerning trends related to its control and monitorability, hinting at potential AGI milestones.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "KL9_1GbmCic",
       "date": "2026-08-27",
