@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-09-16T16:38:48.459Z",
+  "generated_at": "2026-09-16T21:10:54.912Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 29,
+      "total": 30,
       "by_transcript_status": {
-        "complete": 29
+        "complete": 30
       },
       "by_analysis_status": {
-        "complete": 29
+        "complete": 30
       },
-      "ready": 29,
+      "ready": 30,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 29,
+      "total": 30,
       "by_status": {
-        "complete": 29
+        "complete": 30
       }
     },
     "analysis": {
-      "total": 29,
+      "total": 30,
       "by_status": {
-        "complete": 29
+        "complete": 30
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-09-16T21:10:44.762Z",
+          "finished_at": "2026-09-16T21:10:53.897Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-09-16T21:10:37.693Z",
+          "finished_at": "2026-09-16T21:10:43.828Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-09-16T21:10:31.711Z",
+          "finished_at": "2026-09-16T21:10:36.784Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-09-16T16:38:41.775Z",
-          "finished_at": "2026-09-16T16:38:46.931Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-09-16T11:18:08.133Z",
-          "finished_at": "2026-09-16T11:18:08.137Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-09-16T11:18:07.254Z",
-          "finished_at": "2026-09-16T11:18:07.258Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 449000,
-      "video_count": 158,
-      "last_ingested_at": "2026-09-16T16:38:42.149Z",
-      "videos_total": 19,
-      "transcripts_complete": 19,
+      "video_count": 159,
+      "last_ingested_at": "2026-09-16T21:10:32.020Z",
+      "videos_total": 20,
+      "transcripts_complete": 20,
       "transcripts_failed": 0,
-      "analysis_complete": 19,
+      "analysis_complete": 20,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-09-04T11:37:27Z"
+      "latest_published_at": "2026-09-16T20:51:40Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1690000,
       "video_count": 17,
-      "last_ingested_at": "2026-09-16T16:38:42.149Z",
+      "last_ingested_at": "2026-09-16T21:10:32.020Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,43 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "J3ljHm57yU0",
+      "date": "2026-09-16",
+      "published_at": "2026-09-16T20:51:40Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "What AI Researchers Saw, Before Their Demand to ‘Pace’ AI",
+      "url": "https://www.youtube.com/watch?v=J3ljHm57yU0",
+      "thumbnail_url": "https://i.ytimg.com/vi/J3ljHm57yU0/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "AI safety",
+        "frontier AI development pacing",
+        "AI control problem",
+        "AI capabilities and risks",
+        "real-world AI harm",
+        "AI governance",
+        "multi-agent systems",
+        "AI ethics"
+      ],
+      "themes": [
+        "Safety",
+        "Opinion",
+        "Research"
+      ],
+      "summary": "This video investigates the recent urgent calls from AI researchers and lab leaders to 'pace' the development of frontier AI. It aims to explore the six key axes researchers are examining, along with incidence reports and trends, to understand the growing concerns. The discussion will cover why AI might be becoming increasingly difficult to control and the potential transition from advanced AI capabilities to tangible real-world harm, ultimately presenting both the upside and the warnings associated with current AI progress.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.7,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "Spuza-KwTJ4",
       "date": "2026-09-04",
