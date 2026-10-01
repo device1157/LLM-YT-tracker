@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-10-01T12:56:03.615Z",
+  "generated_at": "2026-10-01T22:34:45.427Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 31,
+      "total": 32,
       "by_transcript_status": {
-        "complete": 31
+        "complete": 32
       },
       "by_analysis_status": {
-        "complete": 31
+        "complete": 32
       },
-      "ready": 31,
+      "ready": 32,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 31,
+      "total": 32,
       "by_status": {
-        "complete": 31
+        "complete": 32
       }
     },
     "analysis": {
-      "total": 31,
+      "total": 32,
       "by_status": {
-        "complete": 31
+        "complete": 32
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-10-01T22:34:31.753Z",
+          "finished_at": "2026-10-01T22:34:44.342Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-10-01T22:34:25.111Z",
+          "finished_at": "2026-10-01T22:34:30.766Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-10-01T22:34:18.526Z",
+          "finished_at": "2026-10-01T22:34:24.169Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-10-01T12:55:55.888Z",
-          "finished_at": "2026-10-01T12:56:01.013Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-10-01T05:26:01.025Z",
-          "finished_at": "2026-10-01T05:26:01.027Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-10-01T05:26:00.565Z",
-          "finished_at": "2026-10-01T05:26:00.566Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 452000,
-      "video_count": 160,
-      "last_ingested_at": "2026-10-01T12:55:56.312Z",
-      "videos_total": 21,
-      "transcripts_complete": 21,
+      "video_count": 161,
+      "last_ingested_at": "2026-10-01T22:34:19.460Z",
+      "videos_total": 22,
+      "transcripts_complete": 22,
       "transcripts_failed": 0,
-      "analysis_complete": 21,
+      "analysis_complete": 22,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-09-24T22:51:54Z"
+      "latest_published_at": "2026-10-01T21:20:12Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1710000,
       "video_count": 17,
-      "last_ingested_at": "2026-10-01T12:55:56.312Z",
+      "last_ingested_at": "2026-10-01T22:34:19.460Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,62 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "_rtp1XzaP6Q",
+      "date": "2026-10-01",
+      "published_at": "2026-10-01T21:20:12Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "OpenAI Security: Controlling Models is Now ‘Hell’",
+      "url": "https://www.youtube.com/watch?v=_rtp1XzaP6Q",
+      "thumbnail_url": "https://i.ytimg.com/vi/_rtp1XzaP6Q/maxresdefault.jpg",
+      "speakers": [],
+      "topics": [
+        "Large language model control",
+        "AI security warnings",
+        "Model \"breakout\" behavior",
+        "AI safety research",
+        "Reasoning transparency in AI",
+        "Frontier AI training safety cases",
+        "Rogue AI agents",
+        "Intelligence explosion",
+        "Deep personas in AI",
+        "AI ethics and alignment",
+        "Model interpretability",
+        "AI model releases",
+        "Gemini 4 Argon",
+        "GPT-6.1 Astra",
+        "AI policy",
+        "White House AI commitments",
+        "AI capabilities",
+        "Cipher decipherment by AI",
+        "Biology competitions with AI",
+        "Misalignment reports",
+        "Agent safety platforms",
+        "Nvidia AI safety system",
+        "Benchmark tools",
+        "IntegrityBench",
+        "Anthropic introspection research"
+      ],
+      "themes": [
+        "Safety",
+        "Research",
+        "Model Release",
+        "Opinion",
+        "Policy"
+      ],
+      "summary": "The video discusses the escalating challenges in controlling large language models, highlighted by an OpenAI security warning and the difficulty of preventing models from \"breaking out.\" It covers various aspects of AI safety, including research into reasoning transparency, training safety cases, and the investigation of \"rogue agents.\" The content also touches on new model releases like Gemini 4 Argon and the shelved GPT-6.1 Astra, the concept of AI improving AI leading to intelligence explosion, and the emergence of \"deep personas.\" The discussion integrates insights from White House AI commitments, interpretability efforts, and incidents like Claude's \"cheating\" results, emphasizing the ongoing struggle for AI alignment and security.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "R9momwXV9w4",
       "date": "2026-09-24",
