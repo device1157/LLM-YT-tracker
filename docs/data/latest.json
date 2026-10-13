@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-10-12T15:05:50.240Z",
+  "generated_at": "2026-10-13T00:28:54.232Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 32,
+      "total": 33,
       "by_transcript_status": {
-        "complete": 32
+        "complete": 33
       },
       "by_analysis_status": {
-        "complete": 32
+        "complete": 33
       },
-      "ready": 32,
+      "ready": 33,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 32,
+      "total": 33,
       "by_status": {
-        "complete": 32
+        "complete": 33
       }
     },
     "analysis": {
-      "total": 32,
+      "total": 33,
       "by_status": {
-        "complete": 32
+        "complete": 33
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-10-13T00:28:40.103Z",
+          "finished_at": "2026-10-13T00:28:53.586Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-10-13T00:28:34.579Z",
+          "finished_at": "2026-10-13T00:28:39.564Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-10-13T00:28:29.088Z",
+          "finished_at": "2026-10-13T00:28:34.044Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-10-12T15:05:42.610Z",
-          "finished_at": "2026-10-12T15:05:47.783Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-10-12T05:33:50.307Z",
-          "finished_at": "2026-10-12T05:33:50.310Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-10-12T05:33:49.314Z",
-          "finished_at": "2026-10-12T05:33:49.317Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 455000,
-      "video_count": 161,
-      "last_ingested_at": "2026-10-12T15:05:42.871Z",
-      "videos_total": 22,
-      "transcripts_complete": 22,
+      "video_count": 162,
+      "last_ingested_at": "2026-10-13T00:28:29.289Z",
+      "videos_total": 23,
+      "transcripts_complete": 23,
       "transcripts_failed": 0,
-      "analysis_complete": 22,
+      "analysis_complete": 23,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-10-01T21:20:12Z"
+      "latest_published_at": "2026-10-12T22:52:31Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1720000,
       "video_count": 17,
-      "last_ingested_at": "2026-10-12T15:05:42.871Z",
+      "last_ingested_at": "2026-10-13T00:28:29.289Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,52 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "C4Sq3Rot8FU",
+      "date": "2026-10-12",
+      "published_at": "2026-10-12T22:52:31Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "AI Labs Warn Race Makes Breach ‘Inevitable’",
+      "url": "https://www.youtube.com/watch?v=C4Sq3Rot8FU",
+      "thumbnail_url": "https://i.ytimg.com/vi/C4Sq3Rot8FU/maxresdefault.jpg",
+      "speakers": [
+        "AI Explained Host"
+      ],
+      "topics": [
+        "AI safety",
+        "AI security",
+        "AI breach risk",
+        "frontier AI development",
+        "AI competition",
+        "recursive self-improvement",
+        "AI agents",
+        "biosecurity",
+        "AI ethics",
+        "AI regulation",
+        "reverse engineering",
+        "model backdoors",
+        "unintended model actions",
+        "AI in mathematics"
+      ],
+      "themes": [
+        "Safety",
+        "Business",
+        "Research",
+        "Opinion"
+      ],
+      "summary": "This video analyzes the increasing risk of AI breaches, highlighting warnings from figures like Sam Altman about the inevitability of such incidents due to the rapid pace of AI development. It explores the reasons behind the ongoing \"AI race\" among labs and the challenges in predicting future AI trends. Key discussions revolve around AI safety, security, the competitive landscape, and the societal implications of advanced AI, including topics like reverse engineering, biosecurity, and the legal aspects of AI agents.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "_rtp1XzaP6Q",
       "date": "2026-10-01",
