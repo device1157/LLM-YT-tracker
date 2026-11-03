@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-11-02T15:27:14.016Z",
+  "generated_at": "2026-11-03T00:50:51.578Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 33,
+      "total": 34,
       "by_transcript_status": {
-        "complete": 33
+        "complete": 34
       },
       "by_analysis_status": {
-        "complete": 33
+        "complete": 34
       },
-      "ready": 33,
+      "ready": 34,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 33,
+      "total": 34,
       "by_status": {
-        "complete": 33
+        "complete": 34
       }
     },
     "analysis": {
-      "total": 33,
+      "total": 34,
       "by_status": {
-        "complete": 33
+        "complete": 34
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-11-03T00:50:41.253Z",
+          "finished_at": "2026-11-03T00:50:50.691Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-11-03T00:50:35.166Z",
+          "finished_at": "2026-11-03T00:50:40.478Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-11-03T00:50:29.534Z",
+          "finished_at": "2026-11-03T00:50:34.447Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-11-02T15:27:06.142Z",
-          "finished_at": "2026-11-02T15:27:11.453Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-11-02T05:36:04.950Z",
-          "finished_at": "2026-11-02T05:36:04.954Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-11-02T05:36:04.097Z",
-          "finished_at": "2026-11-02T05:36:04.100Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 457000,
-      "video_count": 162,
-      "last_ingested_at": "2026-11-02T15:27:06.628Z",
-      "videos_total": 23,
-      "transcripts_complete": 23,
+      "video_count": 163,
+      "last_ingested_at": "2026-11-03T00:50:29.653Z",
+      "videos_total": 24,
+      "transcripts_complete": 24,
       "transcripts_failed": 0,
-      "analysis_complete": 23,
+      "analysis_complete": 24,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-10-12T22:52:31Z"
+      "latest_published_at": "2026-11-02T17:02:16Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1750000,
       "video_count": 17,
-      "last_ingested_at": "2026-11-02T15:27:06.628Z",
+      "last_ingested_at": "2026-11-03T00:50:29.653Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,50 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "0Kw6_DTZPrY",
+      "date": "2026-11-02",
+      "published_at": "2026-11-02T17:02:16Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "‘We may release models we can’t control’: Amodei, Altman … and Gemini Carbon",
+      "url": "https://www.youtube.com/watch?v=0Kw6_DTZPrY",
+      "thumbnail_url": "https://i.ytimg.com/vi/0Kw6_DTZPrY/maxresdefault.jpg",
+      "speakers": [
+        "Sam Altman",
+        "Dario Amodei"
+      ],
+      "topics": [
+        "AI safety",
+        "model control",
+        "model alignment",
+        "responsible scaling policies",
+        "frontier models",
+        "Gemini 4 Carbon",
+        "de-tokenization",
+        "recursive self-improvement risks",
+        "superintelligence risks",
+        "AI expectations gap"
+      ],
+      "themes": [
+        "Safety",
+        "Model Release",
+        "Research",
+        "Opinion",
+        "Business"
+      ],
+      "summary": "The video discusses concerns from Sam Altman and Anthropic about potentially releasing AI models that are difficult to control or verify. It covers Dario Amodei's rationalizations regarding AI development and introduces Google's Gemini 4 Carbon model. Key topics include AI safety, responsible scaling policies, the AI expectations gap, and the ongoing debate surrounding the capabilities and risks of frontier AI models, including recursive self-improvement and superintelligence.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.95,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "C4Sq3Rot8FU",
       "date": "2026-10-12",
