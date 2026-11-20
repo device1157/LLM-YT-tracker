@@ -1,35 +1,65 @@
 {
-  "generated_at": "2026-11-19T15:37:54.784Z",
+  "generated_at": "2026-11-20T00:31:56.043Z",
   "stats": {
     "channels": {
       "total": 2
     },
     "videos": {
-      "total": 35,
+      "total": 36,
       "by_transcript_status": {
-        "complete": 35
+        "complete": 36
       },
       "by_analysis_status": {
-        "complete": 35
+        "complete": 36
       },
-      "ready": 35,
+      "ready": 36,
       "awaiting_transcript": 0,
       "awaiting_analysis": 0
     },
     "transcripts": {
-      "total": 35,
+      "total": 36,
       "by_status": {
-        "complete": 35
+        "complete": 36
       }
     },
     "analysis": {
-      "total": 35,
+      "total": 36,
       "by_status": {
-        "complete": 35
+        "complete": 36
       }
     },
     "jobs": {
       "recent": [
+        {
+          "job_name": "analyse",
+          "status": "success",
+          "started_at": "2026-11-20T00:31:44.121Z",
+          "finished_at": "2026-11-20T00:31:55.103Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "transcript",
+          "status": "success",
+          "started_at": "2026-11-20T00:31:37.539Z",
+          "finished_at": "2026-11-20T00:31:43.236Z",
+          "items_processed": 1,
+          "items_succeeded": 1,
+          "items_failed": 0,
+          "error_message": null
+        },
+        {
+          "job_name": "ingest",
+          "status": "success",
+          "started_at": "2026-11-20T00:31:31.802Z",
+          "finished_at": "2026-11-20T00:31:36.644Z",
+          "items_processed": 2,
+          "items_succeeded": 2,
+          "items_failed": 0,
+          "error_message": null
+        },
         {
           "job_name": "analyse",
           "status": "success",
@@ -49,36 +79,6 @@
           "items_succeeded": 0,
           "items_failed": 0,
           "error_message": null
-        },
-        {
-          "job_name": "ingest",
-          "status": "success",
-          "started_at": "2026-11-19T15:37:48.446Z",
-          "finished_at": "2026-11-19T15:37:53.081Z",
-          "items_processed": 2,
-          "items_succeeded": 2,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "analyse",
-          "status": "success",
-          "started_at": "2026-11-19T00:09:27.728Z",
-          "finished_at": "2026-11-19T00:09:27.732Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
-        },
-        {
-          "job_name": "transcript",
-          "status": "success",
-          "started_at": "2026-11-19T00:09:26.738Z",
-          "finished_at": "2026-11-19T00:09:26.741Z",
-          "items_processed": 0,
-          "items_succeeded": 0,
-          "items_failed": 0,
-          "error_message": null
         }
       ]
     }
@@ -91,14 +91,14 @@
       "custom_url": "@aiexplained-official",
       "thumbnail_url": "https://yt3.ggpht.com/GFuvgO3IZvs5XkYOxyLoWQto2lyY6-7Ob-7sfZRyoann4eBgvBMxuGgSVU1cvBgRCgAn41St7g=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 460000,
-      "video_count": 164,
-      "last_ingested_at": "2026-11-19T15:37:48.530Z",
-      "videos_total": 25,
-      "transcripts_complete": 25,
+      "video_count": 165,
+      "last_ingested_at": "2026-11-20T00:31:31.932Z",
+      "videos_total": 26,
+      "transcripts_complete": 26,
       "transcripts_failed": 0,
-      "analysis_complete": 25,
+      "analysis_complete": 26,
       "analysis_transcript_failed": 0,
-      "latest_published_at": "2026-11-10T23:11:36Z"
+      "latest_published_at": "2026-11-19T20:03:10Z"
     },
     {
       "channel_id": "UCXUPKJO5MZQN11PqgIvyuvQ",
@@ -108,7 +108,7 @@
       "thumbnail_url": "https://yt3.ggpht.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s800-c-k-c0x00ffffff-no-rj",
       "subscriber_count": 1770000,
       "video_count": 17,
-      "last_ingested_at": "2026-11-19T15:37:48.530Z",
+      "last_ingested_at": "2026-11-20T00:31:31.932Z",
       "videos_total": 10,
       "transcripts_complete": 10,
       "transcripts_failed": 0,
@@ -118,6 +118,55 @@
     }
   ],
   "videos": [
+    {
+      "video_id": "KGA7B_c_S4s",
+      "date": "2026-11-19",
+      "published_at": "2026-11-19T20:03:10Z",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel": "AI Explained",
+      "title": "Anthropic IPOs, GPT 6.2 Astra Arrives, But There’s a Bigger Story",
+      "url": "https://www.youtube.com/watch?v=KGA7B_c_S4s",
+      "thumbnail_url": "https://i.ytimg.com/vi/KGA7B_c_S4s/maxresdefault.jpg",
+      "speakers": [
+        "Dario Amodei"
+      ],
+      "topics": [
+        "large language models",
+        "GPT 6.2 Astra",
+        "Gemini 4 Carbon",
+        "Gemini 4 Neon",
+        "Anthropic IPO",
+        "model improvement drivers",
+        "data-dependent progress",
+        "AI research acceleration",
+        "automating AI",
+        "model monitorability",
+        "chain-of-thought monitorability",
+        "AI safety",
+        "frontier AI training",
+        "transparency in AI labs",
+        "aggregate benchmarks"
+      ],
+      "themes": [
+        "Model Release",
+        "Business",
+        "Research",
+        "Benchmark",
+        "Safety",
+        "Opinion"
+      ],
+      "summary": "The video discusses recent advancements in large language models, highlighting OpenAI's GPT 6.2 Astra and Google's Gemini 4 Carbon and Neon, alongside Anthropic's IPO. It explores the drivers of model improvement, emphasizing data dependency and the acceleration of AI research by AI itself. A central theme is Anthropic's \"race to the top\" promise and the increasing difficulty in monitoring advanced models, leading to discussions on transparency and AI safety. The video also touches on predictable progress on aggregate benchmarks and the implications for the future of AI development.",
+      "transcript_source": "video_description",
+      "transcript_status": "complete",
+      "analysis_status": "complete",
+      "analysis_model": "gemini-2.5-flash",
+      "prompt_version": "video-analysis-v1",
+      "status": "ready",
+      "confidence": 0.9,
+      "ingestion_source": "youtube_api",
+      "transcript_error": "Used description as fallback because captions and Whisper failed.",
+      "analysis_error": null
+    },
     {
       "video_id": "583ThJIqQ7k",
       "date": "2026-11-10",
